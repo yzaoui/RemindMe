@@ -1,9 +1,11 @@
 package com.bitwiserain.remindme
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -13,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            startActivity(CreateReminderActivity.newIntent(this))
+            startActivityForResult(CreateReminderActivity.newIntent(this), Request.CREATE_NEW_REMINDER.ordinal)
         }
     }
 
@@ -30,6 +32,22 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            Request.CREATE_NEW_REMINDER.ordinal -> when (resultCode) {
+                RESULT_OK -> Snackbar.make(fab, "New reminder was created", Snackbar.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    companion object {
+        enum class Request {
+            CREATE_NEW_REMINDER
         }
     }
 }
