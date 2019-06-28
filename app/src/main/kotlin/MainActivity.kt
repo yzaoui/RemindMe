@@ -5,13 +5,22 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.bitwiserain.remindme.dummy.DummyContent
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInteractionListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
+
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.main_fragment_container, ReminderListFragment.newInstance())
+                .commitNow()
+        }
+
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
@@ -43,6 +52,10 @@ class MainActivity : AppCompatActivity() {
                 RESULT_OK -> Snackbar.make(fab, "New reminder was created", Snackbar.LENGTH_LONG).show()
             }
         }
+    }
+
+    override fun onReminderItemInteraction(item: DummyContent.DummyItem) {
+        println("Clicked ${item.content}")
     }
 
     companion object {
