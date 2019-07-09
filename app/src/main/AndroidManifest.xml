@@ -3,6 +3,7 @@
     package="com.bitwiserain.remindme">
 
     <application
+        android:name="com.bitwiserain.remindme.RemindMeApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -10,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".CreateReminderActivity"
+            android:name="com.bitwiserain.remindme.CreateReminderActivity"
             android:label="@string/title_activity_create_reminder"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -19,7 +20,7 @@
                 android:value="com.bitwiserain.remindme.MainActivity" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.bitwiserain.remindme.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
