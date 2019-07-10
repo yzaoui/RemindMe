@@ -12,8 +12,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="com.bitwiserain.remindme.CreateReminderActivity"
-            android:label="@string/title_activity_create_reminder"
-            android:parentActivityName=".MainActivity"
+            android:label="@string/activity_create_reminder_label"
+            android:parentActivityName="com.bitwiserain.remindme.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

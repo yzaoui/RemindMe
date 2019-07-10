@@ -5,6 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_create_reminder.*
 
@@ -15,6 +19,20 @@ class CreateReminderActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val spinner: Spinner = findViewById(R.id.create_reminder_spinner)
+
+        spinner.adapter = ArrayAdapter.createFromResource(this, R.array.create_reminder_time_units, android.R.layout.simple_spinner_item).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                // TODO
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
