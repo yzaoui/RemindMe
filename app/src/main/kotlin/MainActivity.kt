@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
     }
 
     override fun onReminderItemInteraction(item: DummyContent.DummyItem) {
-        println("Clicked ${item.content}")
+        println("Clicked reminder \"${item.title}\"")
     }
 
     companion object {

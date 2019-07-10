@@ -30,8 +30,8 @@ class ReminderItemRecyclerViewAdapter(private val values: List<DummyItem>, priva
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.idView.text = item.id
-        holder.contentView.text = item.content
+        holder.titleView.text = item.title
+        holder.timeView.text = item.time
 
         with(holder.view) {
             tag = item
@@ -42,11 +42,11 @@ class ReminderItemRecyclerViewAdapter(private val values: List<DummyItem>, priva
     override fun getItemCount(): Int = values.size
 
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val idView: TextView = view.item_number
-        val contentView: TextView = view.content
+        val titleView: TextView = view.reminder_item_title
+        val timeView: TextView = view.reminder_item_time
 
         override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
+            return super.toString() + " '" + timeView.text + "'"
         }
     }
 }
