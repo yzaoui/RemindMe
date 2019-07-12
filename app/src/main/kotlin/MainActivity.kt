@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
     private fun addNewReminder(data: Intent) {
         val newReminder = data.getParcelableExtra<NewReminder>(Extra.NEW_REMINDER.key)
 
-        viewModel.reminders.value = viewModel.reminders.value.orEmpty() + Reminder(Reminder.newId(), newReminder.title, newReminder.time)
+        viewModel.reminders.value = (viewModel.reminders.value.orEmpty() + Reminder(Reminder.newId(), newReminder.title, newReminder.time)).sortedBy { it.time }
         Snackbar.make(fab, "New reminder was created", Snackbar.LENGTH_LONG).show()
     }
 
