@@ -14,6 +14,7 @@ import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.activity_create_reminder.*
+import org.threeten.bp.Instant
 
 class CreateReminderActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +51,7 @@ class CreateReminderActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_done_create_reminder -> {
                 val title = findViewById<EditText>(R.id.create_reminder_title).text.toString()
-                val time = findViewById<EditText>(R.id.create_reminder_time).text.toString()
+                val time = Instant.now().plusSeconds(findViewById<EditText>(R.id.create_reminder_time).text.toString().toLong())
 
                 setResult(RESULT_OK, Intent().apply {
                     putExtra(MainActivity.Extra.NEW_REMINDER.key, NewReminder(title, time))
@@ -67,4 +68,4 @@ class CreateReminderActivity : AppCompatActivity() {
 }
 
 @Parcelize
-data class NewReminder(val title: String, val time: String) : Parcelable
+data class NewReminder(val title: String, val time: Instant) : Parcelable

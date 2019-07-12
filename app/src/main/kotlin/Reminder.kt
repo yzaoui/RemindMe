@@ -1,9 +1,11 @@
 package com.bitwiserain.remindme
 
+import org.threeten.bp.Instant
+
 data class Reminder(
     val id: String,
     val title: String,
-    val time: String
+    val time: Instant
 ) {
     // TODO: Temporary until IDs are set up properly
     companion object {

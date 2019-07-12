@@ -33,7 +33,7 @@ class ReminderItemRecyclerViewAdapter(private val listener: ReminderListFragment
         val reminder = getItem(position)
 
         holder.titleView.text = reminder.title
-        holder.timeView.text = reminder.time
+        holder.timeView.text = reminder.time.toString()
 
         with(holder.view) {
             tag = reminder
