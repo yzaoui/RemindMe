@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_reminder_item.view.*
+import org.threeten.bp.Duration
+import org.threeten.bp.Instant
 
 /**
  * [RecyclerView.Adapter] that can display a [Reminder] and makes a call to the
@@ -33,7 +35,8 @@ class ReminderItemRecyclerViewAdapter(private val listener: ReminderListFragment
         val reminder = getItem(position)
 
         holder.titleView.text = reminder.title
-        holder.timeView.text = reminder.time.toString()
+        // TODO: Properly format time
+        holder.timeView.text = Duration.between(Instant.now(), reminder.time).seconds.toString() + "s"
 
         with(holder.view) {
             tag = reminder
