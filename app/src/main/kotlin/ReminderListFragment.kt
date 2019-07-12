@@ -6,9 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bitwiserain.remindme.dummy.DummyContent
 
 /**
  * A fragment representing a list of Items.
@@ -17,17 +18,25 @@ import com.bitwiserain.remindme.dummy.DummyContent
  */
 class ReminderListFragment : Fragment() {
     private var listener: OnReminderItemInteractionListener? = null
+    private lateinit var viewModel: ReminderListViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel = ViewModelProviders.of(requireActivity()).get(ReminderListViewModel::class.java)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_reminder_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_reminder_list, container, false) as RecyclerView
 
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = ReminderItemRecyclerViewAdapter(DummyContent.ITEMS, listener)
-            }
+        view.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = ReminderItemRecyclerViewAdapter(listener)
         }
+
+        viewModel.reminders.observe(this, Observer { reminders ->
+            (view.adapter as ReminderItemRecyclerViewAdapter).submitList(reminders)
+        })
 
         return view
     }
@@ -53,7 +62,7 @@ class ReminderListFragment : Fragment() {
      * activity.
      */
     interface OnReminderItemInteractionListener {
-        fun onReminderItemInteraction(item: DummyContent.DummyItem)
+        fun onReminderItemInteraction(reminder: Reminder)
     }
 
     companion object {

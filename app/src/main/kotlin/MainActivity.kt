@@ -5,26 +5,29 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.bitwiserain.remindme.dummy.DummyContent
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInteractionListener {
+    private lateinit var viewModel: ReminderListViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
+        setSupportActionBar(toolbar)
+
+        fab.setOnClickListener {
+            startActivityForResult(CreateReminderActivity.newIntent(this), Request.CREATE_NEW_REMINDER.ordinal)
+        }
+
+        viewModel = ViewModelProviders.of(this).get(ReminderListViewModel::class.java)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.main_fragment_container, ReminderListFragment.newInstance())
                 .commitNow()
-        }
-
-        setSupportActionBar(toolbar)
-
-        fab.setOnClickListener { view ->
-            startActivityForResult(CreateReminderActivity.newIntent(this), Request.CREATE_NEW_REMINDER.ordinal)
         }
     }
 
@@ -49,18 +52,27 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
 
         when (requestCode) {
             Request.CREATE_NEW_REMINDER.ordinal -> when (resultCode) {
-                RESULT_OK -> Snackbar.make(fab, "New reminder was created", Snackbar.LENGTH_LONG).show()
+                RESULT_OK -> addNewReminder(data!!)
             }
         }
     }
 
-    override fun onReminderItemInteraction(item: DummyContent.DummyItem) {
-        println("Clicked reminder \"${item.title}\"")
+    private fun addNewReminder(data: Intent) {
+        val newReminder = data.getParcelableExtra<NewReminder>(Extra.NEW_REMINDER.key)
+
+        viewModel.reminders.value = viewModel.reminders.value.orEmpty() + Reminder(Reminder.newId(), newReminder.title, newReminder.time)
+        Snackbar.make(fab, "New reminder was created", Snackbar.LENGTH_LONG).show()
     }
 
-    companion object {
-        enum class Request {
-            CREATE_NEW_REMINDER
-        }
+    override fun onReminderItemInteraction(reminder: Reminder) {
+        println("Clicked reminder \"${reminder.title}\"")
+    }
+
+    enum class Request {
+        CREATE_NEW_REMINDER
+    }
+
+    enum class Extra(val key: String) {
+        NEW_REMINDER("NEW_REMINDER")
     }
 }

@@ -3,13 +3,16 @@ package com.bitwiserain.remindme
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.activity_create_reminder.*
 
 class CreateReminderActivity : AppCompatActivity() {
@@ -46,7 +49,12 @@ class CreateReminderActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_done_create_reminder -> {
-                setResult(RESULT_OK)
+                val title = findViewById<EditText>(R.id.create_reminder_title).text.toString()
+                val time = findViewById<EditText>(R.id.create_reminder_time).text.toString()
+
+                setResult(RESULT_OK, Intent().apply {
+                    putExtra(MainActivity.Extra.NEW_REMINDER.key, NewReminder(title, time))
+                })
                 finish()
                 true
             }
@@ -57,3 +65,6 @@ class CreateReminderActivity : AppCompatActivity() {
         fun newIntent(context: Context) = Intent(context, CreateReminderActivity::class.java)
     }
 }
+
+@Parcelize
+data class NewReminder(val title: String, val time: String) : Parcelable

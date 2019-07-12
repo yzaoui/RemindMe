@@ -4,20 +4,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bitwiserain.remindme.dummy.DummyContent.DummyItem
 import kotlinx.android.synthetic.main.fragment_reminder_item.view.*
 
 /**
- * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
+ * [RecyclerView.Adapter] that can display a [Reminder] and makes a call to the
  * specified [ReminderListFragment.OnReminderItemInteractionListener].
  */
-class ReminderItemRecyclerViewAdapter(private val values: List<DummyItem>, private val listener: ReminderListFragment.OnReminderItemInteractionListener?) : RecyclerView.Adapter<ReminderItemRecyclerViewAdapter.ViewHolder>() {
+class ReminderItemRecyclerViewAdapter(private val listener: ReminderListFragment.OnReminderItemInteractionListener?) : ListAdapter<Reminder, ReminderItemRecyclerViewAdapter.ViewHolder>(ReminderDiffCallback()) {
     private val onClickListener: View.OnClickListener
 
     init {
         onClickListener = View.OnClickListener { v ->
-            val item = v.tag as DummyItem
+            val item = v.tag as Reminder
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
             listener?.onReminderItemInteraction(item)
@@ -29,17 +30,16 @@ class ReminderItemRecyclerViewAdapter(private val values: List<DummyItem>, priva
     )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
-        holder.titleView.text = item.title
-        holder.timeView.text = item.time
+        val reminder = getItem(position)
+
+        holder.titleView.text = reminder.title
+        holder.timeView.text = reminder.time
 
         with(holder.view) {
-            tag = item
+            tag = reminder
             setOnClickListener(onClickListener)
         }
     }
-
-    override fun getItemCount(): Int = values.size
 
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val titleView: TextView = view.reminder_item_title
@@ -48,5 +48,15 @@ class ReminderItemRecyclerViewAdapter(private val values: List<DummyItem>, priva
         override fun toString(): String {
             return super.toString() + " '" + timeView.text + "'"
         }
+    }
+}
+
+private class ReminderDiffCallback : DiffUtil.ItemCallback<Reminder>() {
+    override fun areItemsTheSame(oldItem: Reminder, newItem: Reminder): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Reminder, newItem: Reminder): Boolean {
+        return oldItem.title == newItem.title && oldItem.time == newItem.time
     }
 }
