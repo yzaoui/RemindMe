@@ -68,6 +68,10 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
         println("Clicked reminder \"${reminder.title}\"")
     }
 
+    override fun onReminderElapsed(reminder: Reminder) {
+        viewModel.reminders.value = (viewModel.reminders.value?.filterNot { it.id == reminder.id })
+    }
+
     enum class Request {
         CREATE_NEW_REMINDER
     }

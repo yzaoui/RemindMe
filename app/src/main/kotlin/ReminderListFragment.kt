@@ -20,6 +20,15 @@ class ReminderListFragment : Fragment() {
     private var listener: OnReminderItemInteractionListener? = null
     private lateinit var viewModel: ReminderListViewModel
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnReminderItemInteractionListener) {
+            listener = context
+        } else {
+            throw RuntimeException("$context must implement OnListFragmentInteractionListener")
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -31,7 +40,7 @@ class ReminderListFragment : Fragment() {
 
         view.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = ReminderItemRecyclerViewAdapter(listener)
+            adapter = ReminderItemRecyclerViewAdapter(listener!!, viewModel, this@ReminderListFragment)
         }
 
         viewModel.reminders.observe(this, Observer { reminders ->
@@ -39,15 +48,6 @@ class ReminderListFragment : Fragment() {
         })
 
         return view
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnReminderItemInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException("$context must implement OnListFragmentInteractionListener")
-        }
     }
 
     override fun onDetach() {
@@ -63,6 +63,7 @@ class ReminderListFragment : Fragment() {
      */
     interface OnReminderItemInteractionListener {
         fun onReminderItemInteraction(reminder: Reminder)
+        fun onReminderElapsed(reminder: Reminder)
     }
 
     companion object {
