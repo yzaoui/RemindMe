@@ -3,7 +3,6 @@ package com.bitwiserain.remindme
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -12,7 +11,6 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.activity_create_reminder.*
 import org.threeten.bp.Instant
 
@@ -66,6 +64,3 @@ class CreateReminderActivity : AppCompatActivity() {
         fun newIntent(context: Context) = Intent(context, CreateReminderActivity::class.java)
     }
 }
-
-@Parcelize
-data class NewReminder(val title: String, val time: Instant) : Parcelable

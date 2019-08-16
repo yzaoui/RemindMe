@@ -6,15 +6,14 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
 import com.bitwiserain.remindme.util.InjectorUtils
+import com.bitwiserain.remindme.viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInteractionListener {
-    private val viewModel: ReminderListViewModel by viewModels {
-        InjectorUtils.provideReminderListViewModelFactory(this)
+    private val viewModel: MainViewModel by viewModels {
+        InjectorUtils.provideMainViewModelFactory(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,10 +66,6 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
 
     override fun onReminderItemInteraction(reminder: Reminder) {
         println("Clicked reminder \"${reminder.title}\"")
-    }
-
-    override fun onReminderElapsed(reminder: Reminder) {
-        // TODO
     }
 
     enum class Request {

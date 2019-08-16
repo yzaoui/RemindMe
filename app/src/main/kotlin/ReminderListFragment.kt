@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bitwiserain.remindme.util.InjectorUtils
+import com.bitwiserain.remindme.viewmodel.ReminderListViewModel
 
 /**
  * A fragment representing a list of Items.
@@ -60,7 +61,6 @@ class ReminderListFragment : Fragment() {
      */
     interface OnReminderItemInteractionListener {
         fun onReminderItemInteraction(reminder: Reminder)
-        fun onReminderElapsed(reminder: Reminder)
     }
 
     companion object {

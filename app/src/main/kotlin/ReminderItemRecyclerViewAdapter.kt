@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bitwiserain.remindme.viewmodel.ReminderListViewModel
 import kotlinx.android.synthetic.main.fragment_reminder_item.view.*
 import org.threeten.bp.Duration
 import org.threeten.bp.Instant
