@@ -36,7 +36,7 @@ class ReminderItemRecyclerViewAdapter(private val listener: ReminderListFragment
         val reminder = getItem(position)
         holder.bind(reminder)
 
-        with(vm.timer) {
+        with(Tick.timer) {
             removeObserver(holder)
             observe(lco, holder)
         }

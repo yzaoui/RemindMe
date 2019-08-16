@@ -1,22 +1,14 @@
 package com.bitwiserain.remindme
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import org.threeten.bp.Instant
 
+@Entity(tableName = "reminder")
 data class Reminder(
-    val id: String,
-    val title: String,
-    val time: Instant
+    @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "time") val time: Instant
 ) {
-    // TODO: Temporary until IDs are set up properly
-    companion object {
-        private var nextId: Int = 0
-
-        fun newId(): String {
-            val ret = nextId.toString()
-
-            nextId++
-
-            return ret
-        }
-    }
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") var id: Long = 0
 }

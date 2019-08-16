@@ -4,13 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
+import com.bitwiserain.remindme.util.InjectorUtils
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInteractionListener {
-    private lateinit var viewModel: ReminderListViewModel
+    private val viewModel: ReminderListViewModel by viewModels {
+        InjectorUtils.provideReminderListViewModelFactory(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,8 +26,6 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
         fab.setOnClickListener {
             startActivityForResult(CreateReminderActivity.newIntent(this), Request.CREATE_NEW_REMINDER.ordinal)
         }
-
-        viewModel = ViewModelProviders.of(this).get(ReminderListViewModel::class.java)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -58,9 +61,7 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
     }
 
     private fun addNewReminder(data: Intent) {
-        val newReminder = data.getParcelableExtra<NewReminder>(Extra.NEW_REMINDER.key)
-
-        viewModel.reminders.value = (viewModel.reminders.value.orEmpty() + Reminder(Reminder.newId(), newReminder.title, newReminder.time)).sortedBy { it.time }
+        viewModel.insertReminder(data.getParcelableExtra(Extra.NEW_REMINDER.key))
         Snackbar.make(fab, "New reminder was created", Snackbar.LENGTH_LONG).show()
     }
 
@@ -69,7 +70,7 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
     }
 
     override fun onReminderElapsed(reminder: Reminder) {
-        viewModel.reminders.value = (viewModel.reminders.value?.filterNot { it.id == reminder.id })
+        // TODO
     }
 
     enum class Request {

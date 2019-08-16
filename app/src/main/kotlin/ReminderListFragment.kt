@@ -6,10 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bitwiserain.remindme.util.InjectorUtils
 
 /**
  * A fragment representing a list of Items.
@@ -18,7 +19,9 @@ import androidx.recyclerview.widget.RecyclerView
  */
 class ReminderListFragment : Fragment() {
     private var listener: OnReminderItemInteractionListener? = null
-    private lateinit var viewModel: ReminderListViewModel
+    private val viewModel: ReminderListViewModel by viewModels {
+        InjectorUtils.provideReminderListViewModelFactory(requireContext())
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -29,12 +32,6 @@ class ReminderListFragment : Fragment() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        viewModel = ViewModelProviders.of(requireActivity()).get(ReminderListViewModel::class.java)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_reminder_list, container, false) as RecyclerView
 
@@ -43,7 +40,7 @@ class ReminderListFragment : Fragment() {
             adapter = ReminderItemRecyclerViewAdapter(listener!!, viewModel, this@ReminderListFragment)
         }
 
-        viewModel.reminders.observe(this, Observer { reminders ->
+        viewModel.reminders.observe(viewLifecycleOwner, Observer { reminders ->
             (view.adapter as ReminderItemRecyclerViewAdapter).submitList(reminders)
         })
 
