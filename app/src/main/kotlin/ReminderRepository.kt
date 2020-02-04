@@ -7,6 +7,8 @@ import kotlinx.coroutines.withContext
 class ReminderRepository private constructor(private val reminderDAO: ReminderDAO) {
     fun getReminders(): LiveData<List<Reminder>> = reminderDAO.getReminders()
 
+    suspend fun getReminder(id: Int): Reminder = reminderDAO.getReminder(id)
+
     suspend fun insertReminder(reminder: NewReminder) = withContext(IO) {
         reminderDAO.insertReminder(Reminder(reminder.title, reminder.time))
     }

@@ -38,7 +38,7 @@ class ReminderListFragment : Fragment() {
 
         view.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = ReminderItemRecyclerViewAdapter(listener!!, viewModel, this@ReminderListFragment)
+            adapter = ReminderItemRecyclerViewAdapter(listener!!, this@ReminderListFragment)
         }
 
         viewModel.reminders.observe(viewLifecycleOwner, Observer { reminders ->

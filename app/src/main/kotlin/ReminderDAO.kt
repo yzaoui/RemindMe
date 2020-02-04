@@ -12,4 +12,7 @@ interface ReminderDAO {
 
     @Query("SELECT * FROM reminder")
     fun getReminders(): LiveData<List<Reminder>>
+
+    @Query("SELECT * FROM reminder WHERE id = :id")
+    suspend fun getReminder(id: Int): Reminder
 }

@@ -8,14 +8,14 @@ import com.bitwiserain.remindme.viewmodel.ReminderListViewModelFactory
 
 object InjectorUtils {
     fun provideReminderListViewModelFactory(context: Context) = ReminderListViewModelFactory(
-        repo = getReminderRepository(context)
+        repo = provideReminderRepository(context)
     )
 
     fun provideMainViewModelFactory(context: Context) = MainViewModelFactory(
-        repo = getReminderRepository(context)
+        repo = provideReminderRepository(context)
     )
 
-    private fun getReminderRepository(context: Context) = ReminderRepository.getInstance(
+    fun provideReminderRepository(context: Context) = ReminderRepository.getInstance(
         AppDatabase.getInstance(context).reminderDAO()
     )
 }
