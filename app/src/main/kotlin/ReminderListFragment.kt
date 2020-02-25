@@ -38,7 +38,7 @@ class ReminderListFragment : Fragment() {
 
         view.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = ReminderItemRecyclerViewAdapter(listener!!, this@ReminderListFragment)
+            adapter = ReminderItemRecyclerViewAdapter({ listener?.onReminderDelete(it) }, this@ReminderListFragment)
         }
 
         viewModel.reminders.observe(viewLifecycleOwner, Observer { reminders ->
@@ -60,7 +60,7 @@ class ReminderListFragment : Fragment() {
      * activity.
      */
     interface OnReminderItemInteractionListener {
-        fun onReminderItemInteraction(reminder: Reminder)
+        fun onReminderDelete(reminder: Reminder)
     }
 
     companion object {

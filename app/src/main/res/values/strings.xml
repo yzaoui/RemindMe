@@ -10,4 +10,5 @@
     </string-array>
     <string name="create_reminder_title_hint">Title</string>
     <string name="create_reminder_time_hint">Time</string>
+    <string name="reminder_delete">Delete</string>
 </resources>

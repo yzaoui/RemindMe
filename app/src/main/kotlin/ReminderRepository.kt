@@ -13,6 +13,8 @@ class ReminderRepository private constructor(private val reminderDAO: ReminderDA
         reminderDAO.insertReminder(Reminder(reminder.title, reminder.time))
     }
 
+    suspend fun deleteReminder(reminder: Reminder) = reminderDAO.deleteReminder(reminder)
+
     companion object {
         @Volatile
         private var instance: ReminderRepository? = null

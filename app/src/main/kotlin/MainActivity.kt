@@ -64,8 +64,9 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
         Snackbar.make(fab, "New reminder was created", Snackbar.LENGTH_LONG).show()
     }
 
-    override fun onReminderItemInteraction(reminder: Reminder) {
-        println("Clicked reminder \"${reminder.title}\"")
+    override fun onReminderDelete(reminder: Reminder) {
+        viewModel.deleteReminder(reminder)
+        println("Deleted reminder \"${reminder.title}\"")
     }
 
     enum class Request {

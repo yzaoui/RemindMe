@@ -29,7 +29,7 @@ class CreateReminderActivity : AppCompatActivity() {
         }
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 // TODO
             }
 
@@ -60,6 +60,7 @@ class CreateReminderActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
     companion object {
         fun newIntent(context: Context) = Intent(context, CreateReminderActivity::class.java)
     }
