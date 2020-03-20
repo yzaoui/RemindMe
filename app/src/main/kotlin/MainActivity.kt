@@ -6,6 +6,11 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.bitwiserain.remindme.util.InjectorUtils
 import com.bitwiserain.remindme.viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -16,21 +21,26 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
         InjectorUtils.provideMainViewModelFactory(this)
     }
 
+    private lateinit var appBarConfiguration: AppBarConfiguration
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
+
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener {
             startActivityForResult(CreateReminderActivity.newIntent(this), Request.CREATE_NEW_REMINDER.ordinal)
         }
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.main_fragment_container, ReminderListFragment.newInstance())
-                .commitNow()
-        }
+        val navController = findNavController(R.id.main_nav_host_fragment)
+
+        appBarConfiguration = AppBarConfiguration(setOf(R.id.nav_reminder_list), main_drawer_layout)
+
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        nav_view.setupWithNavController(navController)
+        toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -57,6 +67,11 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
                 RESULT_OK -> addNewReminder(data!!)
             }
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.main_nav_host_fragment)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     private fun addNewReminder(data: Intent) {

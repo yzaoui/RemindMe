@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_reminder_item.view.*
+import kotlinx.android.synthetic.main.view_reminder_item.view.*
 import org.threeten.bp.Duration
 import org.threeten.bp.Instant
 
@@ -26,7 +26,7 @@ class ReminderItemRecyclerViewAdapter(
     private var expandedReminderId: MutableLiveData<Int> = MutableLiveData()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ReminderViewHolder(
-        view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_reminder_item, parent, false),
+        view = LayoutInflater.from(parent.context).inflate(R.layout.view_reminder_item, parent, false),
         expandReminderListener = onClickExpandListener,
         deleteReminder = deleteReminder
     )

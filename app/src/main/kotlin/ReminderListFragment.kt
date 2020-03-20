@@ -26,11 +26,10 @@ class ReminderListFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnReminderItemInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException("$context must implement OnListFragmentInteractionListener")
-        }
+
+        if (context !is OnReminderItemInteractionListener) throw RuntimeException("$context must implement OnListFragmentInteractionListener")
+
+        listener = context
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -61,9 +60,5 @@ class ReminderListFragment : Fragment() {
      */
     interface OnReminderItemInteractionListener {
         fun onReminderDelete(reminder: Reminder)
-    }
-
-    companion object {
-        fun newInstance() = ReminderListFragment()
     }
 }
