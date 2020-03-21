@@ -5,13 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bitwiserain.remindme.util.InjectorUtils
 import com.bitwiserain.remindme.viewmodel.ReminderListViewModel
+import kotlinx.android.synthetic.main.fragment_reminder_list.view.*
 
 /**
  * A fragment representing a list of Items.
@@ -33,15 +34,17 @@ class ReminderListFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_reminder_list, container, false) as RecyclerView
+        val view = inflater.inflate(R.layout.fragment_reminder_list, container, false) as FrameLayout
 
-        view.apply {
+        view.reminder_list_recycler.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = ReminderItemRecyclerViewAdapter({ listener?.onReminderDelete(it) }, this@ReminderListFragment)
         }
 
+        view.fab.setOnClickListener { listener?.onCreateReminderClick() }
+
         viewModel.reminders.observe(viewLifecycleOwner, Observer { reminders ->
-            (view.adapter as ReminderItemRecyclerViewAdapter).submitList(reminders)
+            (view.reminder_list_recycler.adapter as ReminderItemRecyclerViewAdapter).submitList(reminders)
         })
 
         return view
@@ -59,6 +62,7 @@ class ReminderListFragment : Fragment() {
      * activity.
      */
     interface OnReminderItemInteractionListener {
+        fun onCreateReminderClick()
         fun onReminderDelete(reminder: Reminder)
     }
 }

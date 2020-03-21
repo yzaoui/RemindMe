@@ -15,6 +15,7 @@ import com.bitwiserain.remindme.util.InjectorUtils
 import com.bitwiserain.remindme.viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_reminder_list.*
 
 class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInteractionListener {
     private val viewModel: MainViewModel by viewModels {
@@ -29,10 +30,6 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(toolbar)
-
-        fab.setOnClickListener {
-            startActivityForResult(CreateReminderActivity.newIntent(this), Request.CREATE_NEW_REMINDER.ordinal)
-        }
 
         val navController = findNavController(R.id.main_nav_host_fragment)
 
@@ -77,6 +74,10 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
     private fun addNewReminder(data: Intent) {
         viewModel.insertReminder(data.getParcelableExtra(Extra.NEW_REMINDER.key))
         Snackbar.make(fab, "New reminder was created", Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun onCreateReminderClick() {
+        startActivityForResult(CreateReminderActivity.newIntent(this), Request.CREATE_NEW_REMINDER.ordinal)
     }
 
     override fun onReminderDelete(reminder: Reminder) {
