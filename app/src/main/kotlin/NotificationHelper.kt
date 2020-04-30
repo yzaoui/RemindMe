@@ -30,7 +30,7 @@ object NotificationHelper {
 
         NotificationCompat.Builder(context, channelId).apply {
             // Notification shade icon
-            setSmallIcon(android.R.drawable.ic_menu_my_calendar)
+            setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
             setContentTitle(reminder.title)
             setContentText("It's time!")
             priority = NotificationCompat.PRIORITY_DEFAULT
