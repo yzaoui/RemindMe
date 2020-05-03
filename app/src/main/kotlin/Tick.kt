@@ -18,7 +18,7 @@ object Tick {
             val now = Instant.now()
             val delay = 1000L - Duration.between(now.truncatedTo(ChronoUnit.SECONDS), now).toMillis()
 
-            scheduleAtFixedRate(delay, 1000L) {
+            scheduleAtFixedRate(delay, 16L) {
                 _timer.postValue(Instant.now().truncatedTo(ChronoUnit.SECONDS))
             }
         }

@@ -56,11 +56,7 @@ class ReminderViewHolder(val view: View, expandReminderListener: View.OnClickLis
     }
     private var reminder: Reminder? = null
     val tickObserver = Observer<Instant> { now: Instant? ->
-        val reminder = this@ReminderViewHolder.reminder ?: return@Observer
-
-        if (now != null) {
-            timeView.text = if (reminder.isElapsed(now)) "ELAPSED" else secondsToNow(reminder.time, now)
-        }
+        if (now != null) updateView(now)
     }
     val expandedObserver = Observer<Int> { reminderId: Int? ->
         deleteButton.visibility = if (reminderId == this.reminder?.id) View.VISIBLE else View.GONE
@@ -73,8 +69,14 @@ class ReminderViewHolder(val view: View, expandReminderListener: View.OnClickLis
     fun bind(reminder: Reminder) {
         view.tag = reminder
         titleView.text = reminder.title
-        timeView.text = secondsToNow(reminder.time, Instant.now())
         this.reminder = reminder
+        updateView(Instant.now())
+    }
+
+    private fun updateView(now: Instant) {
+        val reminder = this.reminder ?: return
+
+        timeView.text = if (reminder.isElapsed(now)) "ELAPSED" else secondsToNow(reminder.time, now)
     }
 
     private fun secondsToNow(time: Instant, now: Instant): String {

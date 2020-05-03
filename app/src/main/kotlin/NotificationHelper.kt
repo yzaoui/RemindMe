@@ -31,8 +31,8 @@ object NotificationHelper {
         NotificationCompat.Builder(context, channelId).apply {
             // Notification shade icon
             setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
-            setContentTitle(reminder.title)
-            setContentText("It's time!")
+            setContentTitle("Reminder:")
+            setContentText(reminder.title)
             priority = NotificationCompat.PRIORITY_DEFAULT
 
             val pendingIntent = Intent(context, MainActivity::class.java).apply {
