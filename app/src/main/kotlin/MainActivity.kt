@@ -1,6 +1,5 @@
 package com.bitwiserain.remindme
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -17,7 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_reminder_list.*
 
-class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInteractionListener {
+class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInteractionListener, EditReminderDialogFragment.OnReminderSaveListener {
     private val viewModel: MainViewModel by viewModels {
         InjectorUtils.provideMainViewModelFactory(this)
     }
@@ -56,40 +55,22 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when (requestCode) {
-            Request.CREATE_NEW_REMINDER.ordinal -> when (resultCode) {
-                RESULT_OK -> addNewReminder(data!!)
-            }
-        }
-    }
-
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.main_nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    private fun addNewReminder(data: Intent) {
-        viewModel.insertReminder(data.getParcelableExtra(Extra.NEW_REMINDER.key))
-        Snackbar.make(fab, "New reminder was created", Snackbar.LENGTH_LONG).show()
+    override fun onCreateReminderClick() {
+        EditReminderDialogFragment().show(supportFragmentManager, null)
     }
 
-    override fun onCreateReminderClick() {
-        startActivityForResult(CreateReminderActivity.newIntent(this), Request.CREATE_NEW_REMINDER.ordinal)
+    override fun onReminderSave(reminder: NewReminder) {
+        viewModel.insertReminder(reminder)
+        Snackbar.make(reminder_list_container, "New reminder was created", Snackbar.LENGTH_LONG).show()
     }
 
     override fun onReminderDelete(reminder: Reminder) {
         viewModel.deleteReminder(reminder)
-        println("Deleted reminder \"${reminder.title}\"")
-    }
-
-    enum class Request {
-        CREATE_NEW_REMINDER
-    }
-
-    enum class Extra(val key: String) {
-        NEW_REMINDER("NEW_REMINDER")
+        Snackbar.make(reminder_list_container, "Reminder was deleted", Snackbar.LENGTH_LONG).show()
     }
 }

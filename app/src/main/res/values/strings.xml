@@ -4,7 +4,7 @@
     <string name="main_fab_tooltip">Create a reminder</string>
     <string name="activity_create_reminder_label">CreateReminderActivity</string>
 
-    <string-array name="create_reminder_time_units">
+    <string-array name="edit_reminder_time_units">
         <item>Seconds</item>
     </string-array>
     <string name="create_reminder_title_hint">Title</string>
