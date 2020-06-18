@@ -5,33 +5,52 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.bitwiserain.remindme.databinding.EditReminderBinding
-import org.threeten.bp.Instant
+import com.bitwiserain.remindme.util.InjectorUtils
+import com.bitwiserain.remindme.viewmodel.EditReminderDialogViewModel
+import com.bitwiserain.remindme.viewmodel.EditReminderDialogViewModel.State.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class EditReminderDialogFragment : AppCompatDialogFragment() {
     private lateinit var listener: OnReminderSaveListener
-    private var _binding: EditReminderBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: EditReminderBinding
+
+    private val viewModel: EditReminderDialogViewModel by viewModels {
+        InjectorUtils.provideEditReminderDialogViewModelFactory(requireContext())
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = EditReminderBinding.inflate(inflater, container, false)
+        binding = EditReminderBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = this@EditReminderDialogFragment.viewLifecycleOwner
+            viewModel = this@EditReminderDialogFragment.viewModel
+            editReminderSpinner.apply {
+                adapter = ArrayAdapter.createFromResource(requireContext(), R.array.edit_reminder_time_units, android.R.layout.simple_spinner_item).apply {
+                    setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                }
+
+                onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        println("position $position, id $id")
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.state.collect { handleStateTransition(it) }
+        }
 
         requireDialog().setTitle("Create/Edit reminder")
 
-        binding.editReminderSpinner.adapter = ArrayAdapter.createFromResource(requireContext(), R.array.edit_reminder_time_units, android.R.layout.simple_spinner_item).apply {
-            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        }
-        binding.editReminderDiscard.setOnClickListener { onDiscardButtonClick() }
-        binding.editReminderSave.setOnClickListener { onSaveButtonClick() }
-
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onAttach(context: Context) {
@@ -48,16 +67,16 @@ class EditReminderDialogFragment : AppCompatDialogFragment() {
         return R.style.DialogWithTitle
     }
 
-    private fun onDiscardButtonClick() {
-        dismiss()
-    }
-
-    private fun onSaveButtonClick() {
-        val title = binding.editReminderTitle.text.toString()
-        val time = Instant.now().plusSeconds(binding.editReminderTime.text.toString().toLong())
-
-        listener.onReminderSave(NewReminder(title, time))
-        dismiss()
+    private fun handleStateTransition(state: EditReminderDialogViewModel.State) {
+        when (state) {
+            is Editing -> Unit
+            is ConfirmDiscard -> TODO("Need to implement confirmation dialog.")
+            is Discarded -> dismiss()
+            is Submitted -> {
+                listener.onReminderSave(state.newReminder)
+                dismiss()
+            }
+        }
     }
 
     interface OnReminderSaveListener {

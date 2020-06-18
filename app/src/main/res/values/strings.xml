@@ -5,8 +5,11 @@
     <string name="activity_create_reminder_label">CreateReminderActivity</string>
 
     <string-array name="edit_reminder_time_units">
-        <item>Seconds</item>
+        <item>@string/edit_reminder_time_units_seconds</item>
+        <item>@string/edit_reminder_time_units_minutes</item>
     </string-array>
+    <string name="edit_reminder_time_units_seconds">Seconds</string>
+    <string name="edit_reminder_time_units_minutes">Minutes</string>
     <string name="create_reminder_title_hint">Title</string>
     <string name="create_reminder_time_hint">Time</string>
     <string name="reminder_delete">Delete</string>

@@ -1,75 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:minWidth="360dp"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".CreateReminderActivity">
+    <data>
 
-        <EditText
-            android:id="@+id/edit_reminder_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:hint="@string/create_reminder_title_hint"
-            android:inputType="text|textCapSentences"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/edit_reminder_time"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:hint="@string/create_reminder_time_hint"
-            android:inputType="number"
-            app:layout_constraintEnd_toStartOf="@id/edit_reminder_spinner"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edit_reminder_title" />
-
-        <Spinner
-            android:id="@+id/edit_reminder_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:entries="@array/edit_reminder_time_units"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/edit_reminder_time"
-            app:layout_constraintTop_toTopOf="@id/edit_reminder_time" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <variable
+            name="viewModel"
+            type="com.bitwiserain.remindme.viewmodel.EditReminderDialogViewModel" />
+    </data>
 
     <LinearLayout
-        style="?android:attr/buttonBarStyle"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="end"
-        android:paddingStart="0dp"
-        android:paddingEnd="16dp">
+        android:minWidth="360dp"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/edit_reminder_discard"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Discard" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:context=".CreateReminderActivity">
 
-        <Button
-            android:id="@+id/edit_reminder_save"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/edit_reminder_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:hint="@string/create_reminder_title_hint"
+                android:inputType="text|textCapSentences"
+                android:text="@={viewModel.title}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/edit_reminder_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:hint="@string/create_reminder_time_hint"
+                android:inputType="number"
+                android:text="@={viewModel.time}"
+                app:layout_constraintEnd_toStartOf="@id/edit_reminder_spinner"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_reminder_title" />
+
+            <Spinner
+                android:id="@+id/edit_reminder_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:entries="@array/edit_reminder_time_units"
+                android:selectedItemPosition="@={viewModel.selectedUnitPosition}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/edit_reminder_time"
+                app:layout_constraintTop_toTopOf="@id/edit_reminder_time" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save" />
+            android:gravity="end"
+            android:paddingStart="0dp"
+            android:paddingEnd="16dp">
+
+            <Button
+                android:id="@+id/edit_reminder_discard"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewModel.discard()}"
+                android:text="Discard" />
+
+            <Button
+                android:id="@+id/edit_reminder_save"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="@{viewModel.saveEnabled}"
+                android:onClick="@{() -> viewModel.saveReminder()}"
+                android:text="Save" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</layout>

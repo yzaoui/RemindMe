@@ -3,6 +3,7 @@ package com.bitwiserain.remindme.util
 import android.content.Context
 import com.bitwiserain.remindme.AppDatabase
 import com.bitwiserain.remindme.ReminderRepository
+import com.bitwiserain.remindme.viewmodel.EditReminderDialogViewModelFactory
 import com.bitwiserain.remindme.viewmodel.MainViewModelFactory
 import com.bitwiserain.remindme.viewmodel.ReminderListViewModelFactory
 
@@ -12,6 +13,10 @@ object InjectorUtils {
     )
 
     fun provideMainViewModelFactory(context: Context) = MainViewModelFactory(
+        repo = provideReminderRepository(context)
+    )
+
+    fun provideEditReminderDialogViewModelFactory(context: Context) = EditReminderDialogViewModelFactory(
         repo = provideReminderRepository(context)
     )
 

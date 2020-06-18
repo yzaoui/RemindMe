@@ -9,6 +9,7 @@ import java.util.*
 import kotlin.concurrent.scheduleAtFixedRate
 
 object Tick {
+    // TODO: Replace with Flow
     private val _timer: MutableLiveData<Instant> = MutableLiveData()
     val timer: LiveData<Instant>
         get() = _timer
