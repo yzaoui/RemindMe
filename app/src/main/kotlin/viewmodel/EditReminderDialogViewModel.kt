@@ -50,6 +50,7 @@ class EditReminderDialogViewModel internal constructor(private val repo: Reminde
                 when (ReminderTimeUnit.values()[currentSelectedUnitPosition]) {
                     ReminderTimeUnit.SECONDS -> ChronoUnit.SECONDS
                     ReminderTimeUnit.MINUTES -> ChronoUnit.MINUTES
+                    ReminderTimeUnit.HOURS -> ChronoUnit.HOURS
                 }
             )
 
