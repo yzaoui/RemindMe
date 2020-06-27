@@ -13,14 +13,14 @@
         <activity
             android:name="com.bitwiserain.remindme.CreateReminderActivity"
             android:label="@string/activity_create_reminder_label"
-            android:parentActivityName="com.bitwiserain.remindme.MainActivity"
+            android:parentActivityName="com.bitwiserain.remindme.presentation.view.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.bitwiserain.remindme.MainActivity" />
+                android:value="com.bitwiserain.remindme.presentation.view.MainActivity" />
         </activity>
         <activity
-            android:name="com.bitwiserain.remindme.MainActivity"
+            android:name="com.bitwiserain.remindme.presentation.view.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

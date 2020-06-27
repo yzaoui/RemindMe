@@ -1,4 +1,4 @@
-package com.bitwiserain.remindme
+package com.bitwiserain.remindme.presentation.view
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +11,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bitwiserain.remindme.R
+import com.bitwiserain.remindme.Reminder
+import com.bitwiserain.remindme.Tick
 import kotlinx.android.synthetic.main.view_reminder_item.view.*
 import org.threeten.bp.Duration
 import org.threeten.bp.Instant

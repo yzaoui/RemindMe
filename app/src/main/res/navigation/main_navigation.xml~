@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/nav_reminder_list"
-        android:name="com.bitwiserain.remindme.presentation.view.ReminderListFragment"
+        android:name="com.bitwiserain.remindme.ReminderListFragment"
         android:label="Reminders"
         tools:layout="@layout/fragment_reminder_list" />
 
     <fragment
         android:id="@+id/nav_about"
-        android:name="com.bitwiserain.remindme.presentation.view.AboutFragment"
+        android:name="com.bitwiserain.remindme.AboutFragment"
         android:label="About"
         tools:layout="@layout/fragment_about" />
 </navigation>

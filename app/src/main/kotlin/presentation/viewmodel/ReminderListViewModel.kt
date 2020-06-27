@@ -1,4 +1,4 @@
-package com.bitwiserain.remindme.viewmodel
+package com.bitwiserain.remindme.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.bitwiserain.remindme.presentation.view.MainActivity
 
 object NotificationHelper {
     fun createNotificationChannel(context: Context, importance: Int, showBadge: Boolean, name: String, description: String) {

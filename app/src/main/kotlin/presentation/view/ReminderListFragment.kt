@@ -1,18 +1,19 @@
-package com.bitwiserain.remindme
+package com.bitwiserain.remindme.presentation.view
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bitwiserain.remindme.R
+import com.bitwiserain.remindme.Reminder
+import com.bitwiserain.remindme.presentation.viewmodel.ReminderListViewModel
 import com.bitwiserain.remindme.util.InjectorUtils
-import com.bitwiserain.remindme.viewmodel.ReminderListViewModel
 import kotlinx.android.synthetic.main.fragment_reminder_list.view.*
 
 /**

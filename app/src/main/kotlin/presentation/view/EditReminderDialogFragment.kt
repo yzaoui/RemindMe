@@ -1,4 +1,4 @@
-package com.bitwiserain.remindme
+package com.bitwiserain.remindme.presentation.view
 
 import android.content.Context
 import android.os.Bundle
@@ -10,10 +10,12 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.bitwiserain.remindme.NewReminder
+import com.bitwiserain.remindme.R
 import com.bitwiserain.remindme.databinding.EditReminderBinding
+import com.bitwiserain.remindme.presentation.viewmodel.EditReminderDialogViewModel
+import com.bitwiserain.remindme.presentation.viewmodel.EditReminderDialogViewModel.State.*
 import com.bitwiserain.remindme.util.InjectorUtils
-import com.bitwiserain.remindme.viewmodel.EditReminderDialogViewModel
-import com.bitwiserain.remindme.viewmodel.EditReminderDialogViewModel.State.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 

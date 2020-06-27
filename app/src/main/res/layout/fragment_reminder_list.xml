@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:id="@+id/reminder_list_recycler"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:context="com.bitwiserain.remindme.ReminderListFragment"
+        tools:context="com.bitwiserain.remindme.presentation.view.ReminderListFragment"
         tools:listitem="@layout/view_reminder_item"
         tools:showIn="@layout/activity_main" />
 
