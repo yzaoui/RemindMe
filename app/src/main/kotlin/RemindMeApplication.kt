@@ -2,6 +2,8 @@ package com.bitwiserain.remindme
 
 import android.app.Application
 import androidx.core.app.NotificationManagerCompat
+import com.bitwiserain.remindme.notification.NotificationHelper
+import com.bitwiserain.remindme.notification.ReminderScheduler
 import com.jakewharton.threetenabp.AndroidThreeTen
 
 class RemindMeApplication : Application() {

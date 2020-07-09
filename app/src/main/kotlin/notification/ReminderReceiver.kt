@@ -1,4 +1,4 @@
-package com.bitwiserain.remindme
+package com.bitwiserain.remindme.notification
 
 import android.content.BroadcastReceiver
 import android.content.Context

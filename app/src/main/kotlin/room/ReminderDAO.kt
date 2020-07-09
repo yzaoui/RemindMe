@@ -1,4 +1,4 @@
-package com.bitwiserain.remindme
+package com.bitwiserain.remindme.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

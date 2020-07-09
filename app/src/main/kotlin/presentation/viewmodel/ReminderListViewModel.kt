@@ -3,8 +3,8 @@ package com.bitwiserain.remindme.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bitwiserain.remindme.Reminder
-import com.bitwiserain.remindme.ReminderRepository
+import com.bitwiserain.remindme.room.Reminder
+import com.bitwiserain.remindme.room.ReminderRepository
 import kotlinx.coroutines.launch
 
 class ReminderListViewModel internal constructor(private val repo: ReminderRepository) : ViewModel() {

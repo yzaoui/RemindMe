@@ -1,8 +1,8 @@
 package com.bitwiserain.remindme.util
 
 import android.content.Context
-import com.bitwiserain.remindme.AppDatabase
-import com.bitwiserain.remindme.ReminderRepository
+import com.bitwiserain.remindme.room.AppDatabase
+import com.bitwiserain.remindme.room.ReminderRepository
 import com.bitwiserain.remindme.presentation.viewmodel.EditReminderDialogViewModelFactory
 import com.bitwiserain.remindme.presentation.viewmodel.ReminderListViewModelFactory
 

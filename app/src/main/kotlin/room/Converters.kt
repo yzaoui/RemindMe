@@ -1,4 +1,4 @@
-package com.bitwiserain.remindme
+package com.bitwiserain.remindme.room
 
 import androidx.room.TypeConverter
 import org.threeten.bp.Instant

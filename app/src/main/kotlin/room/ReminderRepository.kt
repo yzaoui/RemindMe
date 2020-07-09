@@ -1,6 +1,7 @@
-package com.bitwiserain.remindme
+package com.bitwiserain.remindme.room
 
 import androidx.lifecycle.LiveData
+import com.bitwiserain.remindme.NewReminder
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 
@@ -21,7 +22,9 @@ class ReminderRepository private constructor(private val reminderDAO: ReminderDA
 
         fun getInstance(reminderDAO: ReminderDAO): ReminderRepository {
             return instance ?: synchronized(this) {
-                instance ?: ReminderRepository(reminderDAO).also { instance = it }
+                instance ?: ReminderRepository(
+                    reminderDAO
+                ).also { instance = it }
             }
         }
     }

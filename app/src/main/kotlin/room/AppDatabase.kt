@@ -1,4 +1,4 @@
-package com.bitwiserain.remindme
+package com.bitwiserain.remindme.room
 
 import android.content.Context
 import androidx.room.Database
@@ -18,7 +18,9 @@ abstract class AppDatabase : RoomDatabase() {
 
         fun getInstance(context: Context): AppDatabase {
             return instance ?: synchronized(this) {
-                instance ?: buildDatabase(context).also { instance = it }
+                instance
+                    ?: buildDatabase(context)
+                        .also { instance = it }
             }
         }
 

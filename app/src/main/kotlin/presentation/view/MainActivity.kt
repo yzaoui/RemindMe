@@ -11,7 +11,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bitwiserain.remindme.NewReminder
 import com.bitwiserain.remindme.R
-import com.bitwiserain.remindme.Reminder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_reminder_list.*
