@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.viewModels
@@ -34,14 +33,6 @@ class EditReminderDialogFragment : AppCompatDialogFragment() {
             editReminderSpinner.apply {
                 adapter = ArrayAdapter.createFromResource(requireContext(), R.array.edit_reminder_time_units, android.R.layout.simple_spinner_item).apply {
                     setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                }
-
-                onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onNothingSelected(parent: AdapterView<*>?) {}
-
-                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        println("position $position, id $id")
-                    }
                 }
             }
         }
