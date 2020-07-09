@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bitwiserain.remindme.R
-import com.bitwiserain.remindme.Reminder
 import com.bitwiserain.remindme.presentation.viewmodel.ReminderListViewModel
 import com.bitwiserain.remindme.util.InjectorUtils
 import kotlinx.android.synthetic.main.fragment_reminder_list.view.*
@@ -40,7 +39,13 @@ class ReminderListFragment : Fragment() {
 
         view.reminder_list_recycler.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = ReminderItemRecyclerViewAdapter({ listener?.onReminderDelete(it) }, this@ReminderListFragment)
+            adapter = ReminderItemRecyclerViewAdapter(
+                deleteReminder = {
+                    viewModel.deleteReminder(it)
+                    listener?.onReminderDelete()
+                },
+                lco =  this@ReminderListFragment
+            )
         }
 
         view.fab.setOnClickListener { listener?.onCreateReminderClick() }
@@ -65,6 +70,6 @@ class ReminderListFragment : Fragment() {
      */
     interface OnReminderItemInteractionListener {
         fun onCreateReminderClick()
-        fun onReminderDelete(reminder: Reminder)
+        fun onReminderDelete()
     }
 }

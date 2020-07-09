@@ -3,7 +3,6 @@ package com.bitwiserain.remindme.presentation.view
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -13,17 +12,11 @@ import androidx.navigation.ui.setupWithNavController
 import com.bitwiserain.remindme.NewReminder
 import com.bitwiserain.remindme.R
 import com.bitwiserain.remindme.Reminder
-import com.bitwiserain.remindme.presentation.viewmodel.MainViewModel
-import com.bitwiserain.remindme.util.InjectorUtils
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_reminder_list.*
 
 class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInteractionListener, EditReminderDialogFragment.OnReminderSaveListener {
-    private val viewModel: MainViewModel by viewModels {
-        InjectorUtils.provideMainViewModelFactory(this)
-    }
-
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,12 +61,10 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
     }
 
     override fun onReminderSave(reminder: NewReminder) {
-        viewModel.insertReminder(reminder)
         Snackbar.make(reminder_list_container, "New reminder was created", Snackbar.LENGTH_LONG).show()
     }
 
-    override fun onReminderDelete(reminder: Reminder) {
-        viewModel.deleteReminder(reminder)
+    override fun onReminderDelete() {
         Snackbar.make(reminder_list_container, "Reminder was deleted", Snackbar.LENGTH_LONG).show()
     }
 }
