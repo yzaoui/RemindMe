@@ -1,5 +1,6 @@
 package com.bitwiserain.remindme.presentation.view
 
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,6 @@ import com.bitwiserain.remindme.R
 import com.bitwiserain.remindme.Reminder
 import com.bitwiserain.remindme.Tick
 import kotlinx.android.synthetic.main.view_reminder_item.view.*
-import org.threeten.bp.Duration
 import org.threeten.bp.Instant
 
 class ReminderItemRecyclerViewAdapter(
@@ -79,11 +79,11 @@ class ReminderViewHolder(val view: View, expandReminderListener: View.OnClickLis
     private fun updateView(now: Instant) {
         val reminder = this.reminder ?: return
 
-        timeView.text = if (reminder.isElapsed(now)) "ELAPSED" else secondsToNow(reminder.time, now)
+        timeView.text = if (reminder.isElapsed(now)) "ELAPSED" else instantToFriendlyString(reminder.time, now)
     }
 
-    private fun secondsToNow(time: Instant, now: Instant): String {
-        return "${Duration.between(now, time).seconds}s"
+    private fun instantToFriendlyString(time: Instant, now: Instant): String {
+        return DateUtils.getRelativeTimeSpanString(time.toEpochMilli(), now.toEpochMilli(), DateUtils.MINUTE_IN_MILLIS).toString()
     }
 }
 
