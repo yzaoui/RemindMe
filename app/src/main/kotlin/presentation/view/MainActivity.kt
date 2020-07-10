@@ -60,10 +60,10 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
     }
 
     override fun onReminderSave(reminder: NewReminder) {
-        Snackbar.make(reminder_list_container, "New reminder was created", Snackbar.LENGTH_LONG).show()
+        Snackbar.make(reminder_list_container, getString(R.string.main_created_reminder_snackbar), Snackbar.LENGTH_LONG).show()
     }
 
     override fun onReminderDelete() {
-        Snackbar.make(reminder_list_container, "Reminder was deleted", Snackbar.LENGTH_LONG).show()
+        Snackbar.make(reminder_list_container, getString(R.string.main_deleted_reminder_snackbar), Snackbar.LENGTH_LONG).show()
     }
 }

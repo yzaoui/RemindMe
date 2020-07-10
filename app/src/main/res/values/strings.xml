@@ -1,9 +1,8 @@
 <resources>
     <string name="app_name">RemindMe</string>
-    <string name="action_done_create_reminder">Create</string>
     <string name="main_fab_tooltip">Create a reminder</string>
-    <string name="activity_create_reminder_label">CreateReminderActivity</string>
-
+    <string name="main_created_reminder_snackbar">New reminder was created</string>
+    <string name="main_deleted_reminder_snackbar">Reminder was deleted</string>
     <string-array name="edit_reminder_time_units">
         <item>@string/edit_reminder_time_units_seconds</item>
         <item>@string/edit_reminder_time_units_minutes</item>
@@ -12,7 +11,13 @@
     <string name="edit_reminder_time_units_seconds">Seconds</string>
     <string name="edit_reminder_time_units_minutes">Minutes</string>
     <string name="edit_reminder_time_units_hours">Hours</string>
-    <string name="create_reminder_title_hint">Title</string>
-    <string name="create_reminder_time_hint">Time</string>
+    <string name="edit_reminder_title">Create reminder</string>
+    <string name="edit_reminder_title_hint">Title</string>
+    <string name="edit_reminder_time_hint">Time</string>
+    <string name="edit_reminder_discard_confirmation_message">Discard this reminder?</string>
+    <string name="edit_reminder_discard_confirmation_message_positive">Discard</string>
+    <string name="edit_reminder_discard_confirmation_message_negative">Keep editing</string>
     <string name="reminder_delete">Delete</string>
+    <string name="reminder_elapsed"><b>ELAPSED</b></string>
+    <string name="about_version">App version: %1$s (%2$d)</string>
 </resources>

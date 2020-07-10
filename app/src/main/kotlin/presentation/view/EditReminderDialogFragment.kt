@@ -43,7 +43,7 @@ class EditReminderDialogFragment : AppCompatDialogFragment() {
         }
 
         requireDialog().run {
-            setTitle("Create reminder")
+            setTitle(getString(R.string.edit_reminder_title))
             // TODO: Would be nice to have this cancelable, investigate how to intercept cancel
             isCancelable = false
         }
@@ -79,12 +79,12 @@ class EditReminderDialogFragment : AppCompatDialogFragment() {
 
     private fun confirmDiscard() {
         AlertDialog.Builder(requireContext()).apply {
-            setMessage("Are you sure you want to discard this reminder?")
+            setMessage(getString(R.string.edit_reminder_discard_confirmation_message))
             setCancelable(true)
-            setPositiveButton("Yes") { _, _ ->
+            setPositiveButton(getString(R.string.edit_reminder_discard_confirmation_message_positive)) { _, _ ->
                 viewModel.discardConfirmed()
             }
-            setNegativeButton("No") { dialog, _ ->
+            setNegativeButton(getString(R.string.edit_reminder_discard_confirmation_message_negative)) { dialog, _ ->
                 dialog.cancel()
             }
             setOnCancelListener {

@@ -79,7 +79,7 @@ class ReminderViewHolder(val view: View, expandReminderListener: View.OnClickLis
     private fun updateView(now: Instant) {
         val reminder = this.reminder ?: return
 
-        timeView.text = if (reminder.isElapsed(now)) "ELAPSED" else instantToFriendlyString(reminder.time, now)
+        timeView.text = if (reminder.isElapsed(now)) view.resources.getText(R.string.reminder_elapsed) else instantToFriendlyString(reminder.time, now)
     }
 
     private fun instantToFriendlyString(time: Instant, now: Instant): String {
