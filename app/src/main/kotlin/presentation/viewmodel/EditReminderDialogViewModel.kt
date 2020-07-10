@@ -71,6 +71,14 @@ class EditReminderDialogViewModel internal constructor(private val repo: Reminde
         }
     }
 
+    fun discardCancelled() {
+        if (_state.value == State.ConfirmDiscard) _state.value = State.Editing
+    }
+
+    fun discardConfirmed() {
+        if (_state.value == State.ConfirmDiscard) _state.value = State.Discarded
+    }
+
     sealed class State {
         object Editing : State()
         object ConfirmDiscard : State()

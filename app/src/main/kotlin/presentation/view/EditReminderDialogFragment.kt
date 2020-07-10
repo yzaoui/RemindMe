@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -41,7 +42,11 @@ class EditReminderDialogFragment : AppCompatDialogFragment() {
             viewModel.state.collect { handleStateTransition(it) }
         }
 
-        requireDialog().setTitle("Create/Edit reminder")
+        requireDialog().run {
+            setTitle("Create reminder")
+            // TODO: Would be nice to have this cancelable, investigate how to intercept cancel
+            isCancelable = false
+        }
 
         return binding.root
     }
@@ -63,13 +68,29 @@ class EditReminderDialogFragment : AppCompatDialogFragment() {
     private fun handleStateTransition(state: EditReminderDialogViewModel.State) {
         when (state) {
             is Editing -> Unit
-            is ConfirmDiscard -> TODO("Need to implement confirmation dialog.")
+            is ConfirmDiscard -> confirmDiscard()
             is Discarded -> dismiss()
             is Submitted -> {
                 listener.onReminderSave(state.newReminder)
                 dismiss()
             }
         }
+    }
+
+    private fun confirmDiscard() {
+        AlertDialog.Builder(requireContext()).apply {
+            setMessage("Are you sure you want to discard this reminder?")
+            setCancelable(true)
+            setPositiveButton("Yes") { _, _ ->
+                viewModel.discardConfirmed()
+            }
+            setNegativeButton("No") { dialog, _ ->
+                dialog.cancel()
+            }
+            setOnCancelListener {
+                viewModel.discardCancelled()
+            }
+        }.create().show()
     }
 
     interface OnReminderSaveListener {
