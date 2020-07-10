@@ -24,7 +24,9 @@ class ReminderItemRecyclerViewAdapter(
 ) : ListAdapter<Reminder, ReminderViewHolder>(ReminderDiffCallback()) {
     private val onClickExpandListener: View.OnClickListener = View.OnClickListener { v ->
         val item = v.tag as Reminder
-        expandedReminderId.postValue(item.id)
+
+        // If this reminder is expanded, collapse it. Otherwise, expand it.
+        expandedReminderId.postValue(if (expandedReminderId.value != item.id) item.id else null)
     }
     private var expandedReminderId: MutableLiveData<Int> = MutableLiveData()
 
