@@ -1,7 +1,7 @@
 {
   "data": [
-    {"title":  "Respond to that important email", "time": "2m37"},
-    {"title":  "Transfer tuition fee", "time": "5h"},
-    {"title":  "Ask X about a possible extension", "time": "1d2h"}
+    {"title":  "Ask X about a possible extension", "time": "In 30 minutes"},
+    {"title":  "Respond to that important email", "time": "In 2 hours"},
+    {"title":  "Transfer tuition fee", "time": "In 1 day"}
   ]
 }

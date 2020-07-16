@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bitwiserain.remindme.R
-import com.bitwiserain.remindme.room.Reminder
 import com.bitwiserain.remindme.Tick
+import com.bitwiserain.remindme.room.Reminder
 import kotlinx.android.synthetic.main.view_reminder_item.view.*
 import org.threeten.bp.Instant
 
