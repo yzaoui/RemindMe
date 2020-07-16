@@ -27,6 +27,8 @@ class EditReminderDialogFragment : AppCompatDialogFragment() {
         InjectorUtils.provideEditReminderDialogViewModelFactory(requireContext())
     }
 
+    private var state: EditReminderDialogViewModel.State? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = EditReminderBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = this@EditReminderDialogFragment.viewLifecycleOwner
@@ -39,7 +41,10 @@ class EditReminderDialogFragment : AppCompatDialogFragment() {
         }
 
         lifecycleScope.launch {
-            viewModel.state.collect { handleStateTransition(it) }
+            viewModel.state.collect {
+                handleStateTransition(it)
+                state = it
+            }
         }
 
         requireDialog().run {
@@ -65,19 +70,23 @@ class EditReminderDialogFragment : AppCompatDialogFragment() {
         return R.style.DialogWithTitle
     }
 
-    private fun handleStateTransition(state: EditReminderDialogViewModel.State) {
-        when (state) {
-            is Editing -> Unit
-            is ConfirmDiscard -> confirmDiscard()
-            is Discarded -> dismiss()
-            is Submitted -> {
-                listener.onReminderSave(state.newReminder)
-                dismiss()
+    private fun handleStateTransition(nextState: EditReminderDialogViewModel.State) {
+        when (this.state) {
+            Editing -> when (nextState) {
+                ConfirmDiscard -> showConfirmDiscardAlert()
+                Discarded -> dismiss()
+                is Submitted -> {
+                    listener.onReminderSave(nextState.newReminder)
+                    dismiss()
+                }
+            }
+            ConfirmDiscard -> when (nextState) {
+                Discarded -> dismiss()
             }
         }
     }
 
-    private fun confirmDiscard() {
+    private fun showConfirmDiscardAlert() {
         AlertDialog.Builder(requireContext()).apply {
             setMessage(getString(R.string.edit_reminder_discard_confirmation_message))
             setCancelable(true)
