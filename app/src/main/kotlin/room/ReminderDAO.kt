@@ -1,10 +1,10 @@
 package com.bitwiserain.remindme.room
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ReminderDAO {
@@ -12,7 +12,7 @@ interface ReminderDAO {
     suspend fun insertReminder(reminder: Reminder)
 
     @Query("SELECT * FROM reminder")
-    fun getReminders(): LiveData<List<Reminder>>
+    fun getReminders(): Flow<List<Reminder>>
 
     @Query("SELECT * FROM reminder WHERE id = :id")
     suspend fun getReminder(id: Int): Reminder

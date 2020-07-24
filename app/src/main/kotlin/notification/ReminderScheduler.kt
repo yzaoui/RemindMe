@@ -4,8 +4,9 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import androidx.lifecycle.asLiveData
+import com.bitwiserain.remindme.domain.ReminderRepository
 import com.bitwiserain.remindme.room.Reminder
-import com.bitwiserain.remindme.room.ReminderRepository
 import com.bitwiserain.remindme.util.InjectorUtils
 import org.threeten.bp.Instant
 
@@ -17,7 +18,7 @@ object ReminderScheduler {
         alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         repo = InjectorUtils.provideReminderRepository(context)
 
-        repo.getReminders().observeForever {
+        repo.getReminders().asLiveData().observeForever {
             updateReminders(context, it)
         }
     }

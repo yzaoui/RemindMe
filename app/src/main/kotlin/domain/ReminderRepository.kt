@@ -1,0 +1,12 @@
+package com.bitwiserain.remindme.domain
+
+import com.bitwiserain.remindme.NewReminder
+import com.bitwiserain.remindme.room.Reminder
+import kotlinx.coroutines.flow.Flow
+
+interface ReminderRepository {
+    fun getReminders(): Flow<List<Reminder>>
+    suspend fun getReminder(id: Int): Reminder
+    suspend fun insertReminder(reminder: NewReminder)
+    suspend fun deleteReminder(reminder: Reminder)
+}

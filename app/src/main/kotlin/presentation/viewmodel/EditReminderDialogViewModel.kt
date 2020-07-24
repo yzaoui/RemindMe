@@ -3,7 +3,7 @@ package com.bitwiserain.remindme.presentation.viewmodel
 import androidx.lifecycle.*
 import com.bitwiserain.remindme.NewReminder
 import com.bitwiserain.remindme.ReminderTimeUnit
-import com.bitwiserain.remindme.room.ReminderRepository
+import com.bitwiserain.remindme.domain.ReminderRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
