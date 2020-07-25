@@ -6,6 +6,7 @@ import com.bitwiserain.remindme.ReminderTimeUnit
 import com.bitwiserain.remindme.domain.ReminderRepository
 import com.bitwiserain.remindme.getOrAwaitValue
 import io.kotest.matchers.ints.shouldBeExactly
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldBeEmpty
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
@@ -42,6 +43,11 @@ internal class EditReminderDialogViewModelTest : CoroutineTest {
         @Test @DisplayName("When getting time unit, Then it should be HOURS")
         fun timeUnitEmpty() = testCoroutineScope.runBlockingTest {
             viewModel.selectedUnitPosition.getOrAwaitValue() shouldBeExactly ReminderTimeUnit.HOURS.ordinal
+        }
+
+        @Test @DisplayName("When getting state, Then it should be EDITING")
+        fun stateEditing() = testCoroutineScope.runBlockingTest {
+            viewModel.state.value shouldBe EditReminderDialogViewModel.State.Editing
         }
     }
 }

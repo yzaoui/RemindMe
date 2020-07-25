@@ -19,6 +19,10 @@ class EditReminderDialogViewModel internal constructor(private val repo: Reminde
 
     val selectedUnitPosition = MutableLiveData<Int>(ReminderTimeUnit.HOURS.ordinal)
 
+    private val _state: MutableStateFlow<State> = MutableStateFlow(State.Editing)
+    val state: StateFlow<State>
+        get() = _state
+
     @ExperimentalContracts
     private val _saveEnabled = MediatorLiveData<Boolean>().apply {
         addSource(title) { updateSaveEnabled() }
@@ -26,10 +30,6 @@ class EditReminderDialogViewModel internal constructor(private val repo: Reminde
     }
     @ExperimentalContracts
     val saveEnabled: LiveData<Boolean> = _saveEnabled
-
-    private val _state: MutableStateFlow<State> = MutableStateFlow(State.Editing)
-    val state: StateFlow<State>
-        get() = _state
 
     @ExperimentalContracts
     private fun updateSaveEnabled() {
