@@ -32,7 +32,7 @@ internal class ReminderListViewModelTest : CoroutineTest {
     @BeforeEach
     fun beforeAll() {
         stubRepo = StubReminderRepository(initialFakeReminders, initialFakeReminders.last().id)
-        viewModel = ReminderListViewModel(repo = stubRepo)
+        viewModel = ReminderListViewModel(testCoroutineDispatcher, stubRepo)
     }
 
     @Nested @DisplayName("Given reminders in the database")
@@ -58,15 +58,13 @@ internal class ReminderListViewModelTest : CoroutineTest {
         }
 
         @Test @DisplayName("When deleting a reminder, Then the deleted reminder should be removed")
-        fun reminderShouldBeDeleted() {
+        fun reminderShouldBeDeleted() = testCoroutineScope.runBlockingTest {
             var reminders: List<Reminder>? = null
             val reminderToDelete = initialFakeReminders[1]
 
-            testCoroutineScope.runBlockingTest {
-                viewModel.deleteReminder(reminderToDelete)
+            viewModel.deleteReminder(reminderToDelete)
 
-                reminders = viewModel.reminders.getOrAwaitValue()
-            }
+            reminders = viewModel.reminders.getOrAwaitValue()
 
             reminders shouldContainExactlyInAnyOrder initialFakeReminders.minus(reminderToDelete)
         }

@@ -2,7 +2,6 @@ package com.bitwiserain.remindme
 
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import org.junit.jupiter.api.extension.AfterEachCallback
 import org.junit.jupiter.api.extension.BeforeEachCallback
 import org.junit.jupiter.api.extension.Extension

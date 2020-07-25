@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.bitwiserain.remindme.NewReminder
 import com.bitwiserain.remindme.ReminderTimeUnit
 import com.bitwiserain.remindme.domain.ReminderRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -12,7 +13,10 @@ import org.threeten.bp.temporal.ChronoUnit
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
-class EditReminderDialogViewModel internal constructor(private val repo: ReminderRepository) : ViewModel() {
+class EditReminderDialogViewModel internal constructor(
+    private val ioDispatcher: CoroutineDispatcher,
+    private val repo: ReminderRepository
+) : ViewModel() {
     val title = MutableLiveData<String>("")
 
     val time = MutableLiveData<String>("")
@@ -57,7 +61,7 @@ class EditReminderDialogViewModel internal constructor(private val repo: Reminde
             val newReminder = NewReminder(newTitle, newTime)
 
             // Save reminder to database
-            viewModelScope.launch { repo.insertReminder(newReminder) }
+            viewModelScope.launch(ioDispatcher) { repo.insertReminder(newReminder) }
 
             _state.value = State.Submitted(newReminder)
         }

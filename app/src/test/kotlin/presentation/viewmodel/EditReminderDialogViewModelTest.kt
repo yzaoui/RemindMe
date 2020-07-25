@@ -27,7 +27,7 @@ internal class EditReminderDialogViewModelTest : CoroutineTest {
     @BeforeEach
     fun beforeAll() {
         stubRepo = StubReminderRepository()
-        viewModel = EditReminderDialogViewModel(repo = stubRepo)
+        viewModel = EditReminderDialogViewModel(testCoroutineDispatcher, stubRepo)
     }
 
     @Nested @DisplayName("Given an initial viewmodel")

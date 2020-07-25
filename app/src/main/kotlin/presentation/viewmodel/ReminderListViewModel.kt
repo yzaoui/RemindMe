@@ -6,15 +6,19 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.bitwiserain.remindme.domain.ReminderRepository
 import com.bitwiserain.remindme.room.Reminder
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-class ReminderListViewModel internal constructor(private val repo: ReminderRepository) : ViewModel() {
+class ReminderListViewModel internal constructor(
+    private val ioDispatcher: CoroutineDispatcher,
+    private val repo: ReminderRepository
+) : ViewModel() {
     val reminders: LiveData<List<Reminder>> = repo.getReminders()
         .map { it.sortedBy { it.time } }
         .asLiveData()
 
-    fun deleteReminder(reminder: Reminder) = viewModelScope.launch {
+    fun deleteReminder(reminder: Reminder) = viewModelScope.launch(ioDispatcher) {
         repo.deleteReminder(reminder)
     }
 }
