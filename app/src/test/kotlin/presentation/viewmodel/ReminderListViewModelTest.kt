@@ -2,14 +2,11 @@ package com.bitwiserain.remindme.presentation.viewmodel
 
 import com.bitwiserain.remindme.CoroutineTest
 import com.bitwiserain.remindme.InstantTaskExecutorExtension
-import com.bitwiserain.remindme.NewReminder
 import com.bitwiserain.remindme.domain.ReminderRepository
 import com.bitwiserain.remindme.getOrAwaitValue
 import com.bitwiserain.remindme.room.Reminder
 import io.kotest.matchers.collections.shouldBeSortedWith
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
@@ -18,8 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.threeten.bp.Instant
 
 @ExtendWith(InstantTaskExecutorExtension::class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ReminderListViewModelTest : CoroutineTest {
+internal class ReminderListViewModelTest : CoroutineTest {
     override lateinit var testCoroutineScope: TestCoroutineScope
     override lateinit var testCoroutineDispatcher: TestCoroutineDispatcher
 
@@ -29,22 +25,14 @@ class ReminderListViewModelTest : CoroutineTest {
         Reminder("2", Instant.ofEpochSecond(6000L)).apply { id = 2 }
     )
 
-    private lateinit var fakeRepo: ReminderRepository
+    private lateinit var stubRepo: ReminderRepository
 
     private lateinit var viewModel: ReminderListViewModel
 
     @BeforeEach
     fun beforeAll() {
-        fakeRepo = object : ReminderRepository {
-            private val reminders: MutableStateFlow<List<Reminder>> = MutableStateFlow(initialFakeReminders)
-
-            override fun getReminders(): Flow<List<Reminder>> = reminders
-            override suspend fun getReminder(id: Int): Reminder = doNothing()
-            override suspend fun insertReminder(reminder: NewReminder) = doNothing()
-            override suspend fun deleteReminder(reminder: Reminder) { reminders.value -= reminder }
-        }
-
-        viewModel = ReminderListViewModel(repo = fakeRepo)
+        stubRepo = StubReminderRepository(initialFakeReminders, initialFakeReminders.last().id)
+        viewModel = ReminderListViewModel(repo = stubRepo)
     }
 
     @Nested @DisplayName("Given reminders in the database")
@@ -84,5 +72,3 @@ class ReminderListViewModelTest : CoroutineTest {
         }
     }
 }
-
-fun doNothing(): Nothing = throw NotImplementedError()

@@ -13,11 +13,11 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
 class EditReminderDialogViewModel internal constructor(private val repo: ReminderRepository) : ViewModel() {
-    val title = MutableLiveData<String>()
+    val title = MutableLiveData<String>("")
 
-    val time = MutableLiveData<String>()
+    val time = MutableLiveData<String>("")
 
-    val selectedUnitPosition = MutableLiveData<Int>()
+    val selectedUnitPosition = MutableLiveData<Int>(ReminderTimeUnit.HOURS.ordinal)
 
     @ExperimentalContracts
     private val _saveEnabled = MediatorLiveData<Boolean>().apply {
