@@ -10,7 +10,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.bitwiserain.remindme.NewReminder
 import com.bitwiserain.remindme.R
 import com.bitwiserain.remindme.databinding.EditReminderBinding
 import com.bitwiserain.remindme.presentation.viewmodel.EditReminderDialogViewModel
@@ -75,8 +74,8 @@ class EditReminderDialogFragment : AppCompatDialogFragment() {
             Editing -> when (nextState) {
                 ConfirmDiscard -> showConfirmDiscardAlert()
                 Discarded -> dismiss()
-                is Submitted -> {
-                    listener.onReminderSave(nextState.newReminder)
+                Submitted -> {
+                    listener.onReminderSave()
                     dismiss()
                 }
             }
@@ -103,6 +102,6 @@ class EditReminderDialogFragment : AppCompatDialogFragment() {
     }
 
     interface OnReminderSaveListener {
-        fun onReminderSave(reminder: NewReminder)
+        fun onReminderSave()
     }
 }

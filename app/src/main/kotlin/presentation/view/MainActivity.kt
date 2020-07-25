@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
         EditReminderDialogFragment().show(supportFragmentManager, null)
     }
 
-    override fun onReminderSave(reminder: NewReminder) {
+    override fun onReminderSave() {
         Snackbar.make(reminder_list_container, getString(R.string.main_created_reminder_snackbar), Snackbar.LENGTH_LONG).show()
     }
 

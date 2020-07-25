@@ -63,7 +63,7 @@ class EditReminderDialogViewModel internal constructor(
             // Save reminder to database
             viewModelScope.launch(ioDispatcher) { repo.insertReminder(newReminder) }
 
-            _state.value = State.Submitted(newReminder)
+            _state.value = State.Submitted
         }
     }
 
@@ -87,9 +87,7 @@ class EditReminderDialogViewModel internal constructor(
         object Editing : State()
         object ConfirmDiscard : State()
         object Discarded : State()
-        data class Submitted(
-            val newReminder: NewReminder
-        ) : State()
+        object Submitted : State()
     }
 }
 
