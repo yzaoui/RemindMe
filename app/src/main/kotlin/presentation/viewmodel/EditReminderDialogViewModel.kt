@@ -75,11 +75,11 @@ class EditReminderDialogViewModel internal constructor(
         }
     }
 
-    fun discardCancelled() {
+    fun cancelDiscard() {
         if (_state.value == State.ConfirmDiscard) _state.value = State.Editing
     }
 
-    fun discardConfirmed() {
+    fun confirmDiscard() {
         if (_state.value == State.ConfirmDiscard) _state.value = State.Discarded
     }
 

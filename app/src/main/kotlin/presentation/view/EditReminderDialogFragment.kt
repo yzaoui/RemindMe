@@ -90,13 +90,13 @@ class EditReminderDialogFragment : AppCompatDialogFragment() {
             setMessage(getString(R.string.edit_reminder_discard_confirmation_message))
             setCancelable(true)
             setPositiveButton(getString(R.string.edit_reminder_discard_confirmation_message_positive)) { _, _ ->
-                viewModel.discardConfirmed()
+                viewModel.confirmDiscard()
             }
             setNegativeButton(getString(R.string.edit_reminder_discard_confirmation_message_negative)) { dialog, _ ->
                 dialog.cancel()
             }
             setOnCancelListener {
-                viewModel.discardCancelled()
+                viewModel.cancelDiscard()
             }
         }.create().show()
     }

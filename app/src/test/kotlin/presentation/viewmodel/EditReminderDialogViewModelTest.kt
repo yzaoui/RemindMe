@@ -5,7 +5,9 @@ import com.bitwiserain.remindme.InstantTaskExecutorExtension
 import com.bitwiserain.remindme.ReminderTimeUnit
 import com.bitwiserain.remindme.domain.ReminderRepository
 import com.bitwiserain.remindme.getOrAwaitValue
+import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.ints.shouldBeExactly
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldBeEmpty
@@ -48,7 +50,7 @@ internal class EditReminderDialogViewModelTest : CoroutineTest {
         }
 
         @Test @DisplayName("When getting state, Then it should be EDITING")
-        fun stateEditing() = testCoroutineScope.runBlockingTest {
+        fun stateEditing() {
             viewModel.state.value shouldBe EditReminderDialogViewModel.State.Editing
         }
 
@@ -59,10 +61,59 @@ internal class EditReminderDialogViewModelTest : CoroutineTest {
         }
 
         @Test @DisplayName("When attempting to discard, Then the state should be DISCARDED")
-        fun initialDiscardIsDiscarded() = testCoroutineScope.runBlockingTest {
+        fun initialDiscardSetsDiscarded() {
             viewModel.discard()
 
             viewModel.state.value shouldBe EditReminderDialogViewModel.State.Discarded
+        }
+    }
+
+    @Nested @DisplayName("Given a fully filled reminder")
+    inner class FullyFilledReminder {
+        private val initialTitle = "Some reminder text"
+        private val initialTime = "5"
+
+        @BeforeEach
+        fun beforeEach() {
+            viewModel.title.value = initialTitle
+            viewModel.time.value = initialTime
+        }
+
+        @ExperimentalContracts
+        @Test @DisplayName("When getting save enabled, Then it should be true")
+        fun saveEnabledTrue() = testCoroutineScope.runBlockingTest {
+            viewModel.saveEnabled.getOrAwaitValue().shouldBeTrue()
+        }
+
+        @Nested @DisplayName("When attempting to discard")
+        inner class AttemptingDiscard {
+            @BeforeEach
+            fun beforeEach() {
+                viewModel.discard()
+            }
+
+            @Test @DisplayName("Then the state is CONFIRM_DISCARD")
+            fun isConfirmDiscard() {
+                viewModel.state.value shouldBe EditReminderDialogViewModel.State.ConfirmDiscard
+            }
+
+            @Test @DisplayName("Then discard should be confirmable and goes to DISCARDED state")
+            fun discardConfirmable() {
+                viewModel.confirmDiscard()
+
+                viewModel.state.value shouldBe EditReminderDialogViewModel.State.Discarded
+            }
+
+            @Test @DisplayName("Then discard should be cancellable and returns to EDITING state with original inputs")
+            fun discardCancellable() {
+                viewModel.cancelDiscard()
+
+                assertSoftly {
+                    viewModel.state.value shouldBe EditReminderDialogViewModel.State.Editing
+                    viewModel.title.getOrAwaitValue() shouldBe initialTitle
+                    viewModel.time.getOrAwaitValue() shouldBe initialTime
+                }
+            }
         }
     }
 }
