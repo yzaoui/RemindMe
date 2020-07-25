@@ -5,6 +5,7 @@ import com.bitwiserain.remindme.InstantTaskExecutorExtension
 import com.bitwiserain.remindme.ReminderTimeUnit
 import com.bitwiserain.remindme.domain.ReminderRepository
 import com.bitwiserain.remindme.getOrAwaitValue
+import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.ints.shouldBeExactly
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldBeEmpty
@@ -13,6 +14,7 @@ import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.extension.ExtendWith
+import kotlin.contracts.ExperimentalContracts
 
 @ExtendWith(InstantTaskExecutorExtension::class)
 internal class EditReminderDialogViewModelTest : CoroutineTest {
@@ -48,6 +50,19 @@ internal class EditReminderDialogViewModelTest : CoroutineTest {
         @Test @DisplayName("When getting state, Then it should be EDITING")
         fun stateEditing() = testCoroutineScope.runBlockingTest {
             viewModel.state.value shouldBe EditReminderDialogViewModel.State.Editing
+        }
+
+        @ExperimentalContracts
+        @Test @DisplayName("When getting save enabled, Then it should be false")
+        fun saveEnabledFalse() = testCoroutineScope.runBlockingTest {
+            viewModel.saveEnabled.getOrAwaitValue().shouldBeFalse()
+        }
+
+        @Test @DisplayName("When attempting to discard, Then the state should be DISCARDED")
+        fun initialDiscardIsDiscarded() = testCoroutineScope.runBlockingTest {
+            viewModel.discard()
+
+            viewModel.state.value shouldBe EditReminderDialogViewModel.State.Discarded
         }
     }
 }
