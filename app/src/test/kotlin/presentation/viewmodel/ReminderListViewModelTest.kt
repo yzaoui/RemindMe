@@ -1,7 +1,10 @@
-package com.bitwiserain.remindme
+package com.bitwiserain.remindme.presentation.viewmodel
 
+import com.bitwiserain.remindme.CoroutineTest
+import com.bitwiserain.remindme.InstantTaskExecutorExtension
+import com.bitwiserain.remindme.NewReminder
 import com.bitwiserain.remindme.domain.ReminderRepository
-import com.bitwiserain.remindme.presentation.viewmodel.ReminderListViewModel
+import com.bitwiserain.remindme.getOrAwaitValue
 import com.bitwiserain.remindme.room.Reminder
 import io.kotest.matchers.collections.shouldBeSortedWith
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
@@ -16,7 +19,7 @@ import org.threeten.bp.Instant
 
 @ExtendWith(InstantTaskExecutorExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ReminderListViewModelTests : CoroutineTest {
+class ReminderListViewModelTest : CoroutineTest {
     override lateinit var testCoroutineScope: TestCoroutineScope
     override lateinit var testCoroutineDispatcher: TestCoroutineDispatcher
 
