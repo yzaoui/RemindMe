@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="create_reminder"
+        android:shortcutShortLabel="@string/app_shortcut_create_reminder_short_label">
+        <intent
+            android:action="com.bitwiserain.remindme.CREATE_REMINDER"
+            android:targetClass="com.bitwiserain.remindme.presentation.view.MainActivity"
+            android:targetPackage="com.bitwiserain.remindme" />
+    </shortcut>
+</shortcuts>
