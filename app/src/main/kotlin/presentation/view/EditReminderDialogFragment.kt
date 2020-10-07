@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bitwiserain.remindme.R
 import com.bitwiserain.remindme.databinding.EditReminderBinding
+import com.bitwiserain.remindme.helper.focusAndShowKeyboard
 import com.bitwiserain.remindme.presentation.viewmodel.EditReminderDialogViewModel
 import com.bitwiserain.remindme.presentation.viewmodel.EditReminderDialogViewModel.State.*
 import com.bitwiserain.remindme.util.InjectorUtils
@@ -51,6 +52,8 @@ class EditReminderDialogFragment : AppCompatDialogFragment() {
             // TODO: Would be nice to have this cancelable, investigate how to intercept cancel
             isCancelable = false
         }
+
+        binding.editReminderTitle.focusAndShowKeyboard()
 
         return binding.root
     }
