@@ -65,6 +65,7 @@ class ReminderViewHolder(val view: View, expandReminderListener: View.OnClickLis
     }
     val expandedObserver = Observer<Int> { reminderId: Int? ->
         deleteButton.visibility = if (reminderId == this.reminder?.id) View.VISIBLE else View.GONE
+        titleView.setSingleLine(reminderId != this.reminder?.id)
     }
 
     init {
