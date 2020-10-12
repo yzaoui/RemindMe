@@ -34,6 +34,7 @@ android {
     }
     buildFeatures {
         dataBinding = true
+        viewBinding = true
     }
     // TODO: Workaround until coroutines issue fixed: https://github.com/Kotlin/kotlinx.coroutines/issues/2023
     packagingOptions {

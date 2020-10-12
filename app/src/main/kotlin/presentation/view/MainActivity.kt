@@ -3,33 +3,38 @@ package com.bitwiserain.remindme.presentation.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bitwiserain.remindme.R
+import com.bitwiserain.remindme.databinding.ActivityMainBinding
 import com.bitwiserain.remindme.util.PACKAGE_PREFIX
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_reminder_list.*
 
 class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInteractionListener, EditReminderDialogFragment.OnReminderSaveListener {
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
-        setSupportActionBar(toolbar)
+        setContentView(binding.root)
 
-        val navController = findNavController(R.id.main_nav_host_fragment)
+        setSupportActionBar(binding.toolbar)
 
-        appBarConfiguration = AppBarConfiguration(setOf(R.id.nav_reminder_list), main_drawer_layout)
+        // Workaround for https://issuetracker.google.com/issues/142847973 instead of findNavController()
+        val navController = (supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment) as NavHostFragment).navController
+
+        appBarConfiguration = AppBarConfiguration(setOf(R.id.nav_reminder_list), binding.mainDrawerLayout)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
-        nav_view.setupWithNavController(navController)
-        toolbar.setupWithNavController(navController, appBarConfiguration)
+        binding.navView.setupWithNavController(navController)
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
 
         if (intent?.action == Action.CREATE_REMINDER.key) {
             showCreateDialogFragment()
@@ -50,10 +55,12 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
     }
 
     override fun onReminderSave() {
+        // TODO: Remove synthetic view
         Snackbar.make(reminder_list_container, getString(R.string.main_created_reminder_snackbar), Snackbar.LENGTH_LONG).show()
     }
 
     override fun onReminderDelete() {
+        // TODO: Remove synthetic view
         Snackbar.make(reminder_list_container, getString(R.string.main_deleted_reminder_snackbar), Snackbar.LENGTH_LONG).show()
     }
 
