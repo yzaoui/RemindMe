@@ -4,8 +4,6 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -14,8 +12,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bitwiserain.remindme.R
 import com.bitwiserain.remindme.Tick
+import com.bitwiserain.remindme.databinding.ViewReminderItemBinding
 import com.bitwiserain.remindme.room.Reminder
-import kotlinx.android.synthetic.main.view_reminder_item.view.*
 import org.threeten.bp.Instant
 
 class ReminderItemRecyclerViewAdapter(
@@ -31,7 +29,7 @@ class ReminderItemRecyclerViewAdapter(
     private var expandedReminderId: MutableLiveData<Int> = MutableLiveData()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ReminderViewHolder(
-        view = LayoutInflater.from(parent.context).inflate(R.layout.view_reminder_item, parent, false),
+        binding = ViewReminderItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
         expandReminderListener = onClickExpandListener,
         deleteReminder = deleteReminder
     )
@@ -53,28 +51,28 @@ class ReminderItemRecyclerViewAdapter(
     }
 }
 
-class ReminderViewHolder(val view: View, expandReminderListener: View.OnClickListener, deleteReminder: (reminder: Reminder) -> Unit) : RecyclerView.ViewHolder(view) {
-    private val titleView: TextView = view.reminder_item_title
-    private val timeView: TextView = view.reminder_item_time
-    private val deleteButton: Button = view.reminder_delete.apply {
-        setOnClickListener { this@ReminderViewHolder.reminder?.let(deleteReminder) }
-    }
+class ReminderViewHolder(
+    private val binding: ViewReminderItemBinding,
+    expandReminderListener: View.OnClickListener,
+    deleteReminder: (reminder: Reminder) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
     private var reminder: Reminder? = null
     val tickObserver = Observer<Instant> { now: Instant? ->
         if (now != null) updateView(now)
     }
     val expandedObserver = Observer<Int> { reminderId: Int? ->
-        deleteButton.visibility = if (reminderId == this.reminder?.id) View.VISIBLE else View.GONE
-        titleView.setSingleLine(reminderId != this.reminder?.id)
+        binding.reminderDelete.visibility = if (reminderId == this.reminder?.id) View.VISIBLE else View.GONE
+        binding.reminderItemTitle.setSingleLine(reminderId != this.reminder?.id)
     }
 
     init {
-        view.setOnClickListener(expandReminderListener)
+        binding.reminderDelete.setOnClickListener { this@ReminderViewHolder.reminder?.let(deleteReminder) }
+        binding.root.setOnClickListener(expandReminderListener)
     }
 
     fun bind(reminder: Reminder) {
-        view.tag = reminder
-        titleView.text = reminder.title
+        binding.root.tag = reminder
+        binding.reminderItemTitle.text = reminder.title
         this.reminder = reminder
         updateView(Instant.now())
     }
@@ -82,7 +80,7 @@ class ReminderViewHolder(val view: View, expandReminderListener: View.OnClickLis
     private fun updateView(now: Instant) {
         val reminder = this.reminder ?: return
 
-        timeView.text = if (reminder.isElapsed(now)) view.resources.getText(R.string.reminder_elapsed) else instantToFriendlyString(reminder.time, now)
+        binding.reminderItemTime.text = if (reminder.isElapsed(now)) binding.root.resources.getText(R.string.reminder_elapsed) else instantToFriendlyString(reminder.time, now)
     }
 
     private fun instantToFriendlyString(time: Instant, now: Instant): String {
