@@ -18,15 +18,20 @@ import org.threeten.bp.Instant
 
 class ReminderItemRecyclerViewAdapter(
     private val deleteReminder: (reminder: Reminder) -> Unit,
-    private val lco: LifecycleOwner
+    private val lco: LifecycleOwner,
+    initialExpandedReminderId: Int? = null,
+    private val onInitialReminderExpanded: (position: Int) -> Unit
 ) : ListAdapter<Reminder, ReminderViewHolder>(ReminderDiffCallback()) {
     private val onClickExpandListener: View.OnClickListener = View.OnClickListener { v ->
-        val item = v.tag as Reminder
-
-        // If this reminder is expanded, collapse it. Otherwise, expand it.
-        expandedReminderId.postValue(if (expandedReminderId.value != item.id) item.id else null)
+        handleReminderExpansion((v.tag as Reminder).id)
     }
     private var expandedReminderId: MutableLiveData<Int> = MutableLiveData()
+    private val initialExpansion = initialExpandedReminderId?.let {
+        object {
+            var occurred = false
+            val id = it
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ReminderViewHolder(
         binding = ViewReminderItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
@@ -49,6 +54,18 @@ class ReminderItemRecyclerViewAdapter(
             observe(lco, holder.expandedObserver)
         }
     }
+
+    override fun onCurrentListChanged(previousList: MutableList<Reminder>, currentList: MutableList<Reminder>) {
+        // Hacky way of making sure any initially expanded reminder is only expanded at the start
+        if (previousList.isEmpty() && initialExpansion?.occurred == false) {
+            handleReminderExpansion(initialExpansion.id)
+            onInitialReminderExpanded(currentList.indexOfFirst { it.id == initialExpansion.id })
+            initialExpansion.occurred = true
+        }
+    }
+
+    // If this reminder is expanded, collapse it. Otherwise, expand it.
+    private fun handleReminderExpansion(reminderId: Int) = expandedReminderId.postValue(if (expandedReminderId.value != reminderId) reminderId else null)
 }
 
 class ReminderViewHolder(

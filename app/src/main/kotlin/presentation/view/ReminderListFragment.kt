@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bitwiserain.remindme.databinding.FragmentReminderListBinding
 import com.bitwiserain.remindme.presentation.viewmodel.ReminderListViewModel
@@ -19,6 +20,7 @@ import com.bitwiserain.remindme.util.InjectorUtils
  */
 class ReminderListFragment : Fragment() {
     private lateinit var binding: FragmentReminderListBinding
+    private val args: ReminderListFragmentArgs by navArgs()
     private var listener: OnReminderItemInteractionListener? = null
     private val viewModel: ReminderListViewModel by viewModels {
         InjectorUtils.provideReminderListViewModelFactory(requireContext())
@@ -42,7 +44,9 @@ class ReminderListFragment : Fragment() {
                     viewModel.deleteReminder(it)
                     listener?.onReminderDelete()
                 },
-                lco =  this@ReminderListFragment
+                lco =  this@ReminderListFragment,
+                initialExpandedReminderId = if (args.scrollToReminderId != -1) args.scrollToReminderId else null,
+                onInitialReminderExpanded = ::scrollToPosition
             )
         }
 
