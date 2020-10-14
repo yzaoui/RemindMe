@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -40,6 +41,11 @@ object NotificationHelper {
 
             val pendingIntent = Intent(context, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                action = MainActivity.Action.GO_TO_REMINDER.key
+                data = Uri.Builder().apply {
+                    scheme("reminder")
+                    path(reminder.id.toString())
+                }.build()
             }.let {
                 PendingIntent.getActivity(context, 0, it, 0)
             }
