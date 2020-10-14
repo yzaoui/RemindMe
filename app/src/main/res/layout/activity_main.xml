@@ -27,7 +27,7 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/main_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
@@ -37,7 +37,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navGraph="@navigation/main_navigation" />
+            tools:navGraph="@navigation/main_navigation" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
