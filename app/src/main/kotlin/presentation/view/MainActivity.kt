@@ -30,6 +30,13 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
         // Workaround for https://issuetracker.google.com/issues/142847973 instead of findNavController()
         val navController = (supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment) as NavHostFragment).navController
 
+        var startArgs = ReminderListFragmentArgs()
+        if (intent?.action == Action.GO_TO_REMINDER.key) {
+            startArgs = startArgs.copy(scrollToReminderId = intent.data.pathSegments[0].toInt())
+        }
+
+        navController.setGraph(R.navigation.main_navigation, startArgs.toBundle())
+
         appBarConfiguration = AppBarConfiguration(setOf(R.id.nav_reminder_list), binding.mainDrawerLayout)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -65,6 +72,7 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
     }
 
     enum class Action(val key: String) {
-        CREATE_REMINDER(PACKAGE_PREFIX + "CREATE_REMINDER")
+        CREATE_REMINDER(PACKAGE_PREFIX + "CREATE_REMINDER"),
+        GO_TO_REMINDER(PACKAGE_PREFIX + "GO_TO_REMINDER")
     }
 }
