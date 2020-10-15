@@ -49,6 +49,17 @@ object NotificationHelper {
                     PendingIntent.getActivity(context, 0, it, 0)
                 }
             )
+            addAction(android.R.drawable.ic_menu_delete, "Delete",
+                Intent(context, ReminderReceiver::class.java).apply {
+                    action = ReminderReceiver.Action.DELETE_REMINDER.key
+                    data = Uri.Builder().apply {
+                        appendPath("reminder")
+                        appendPath(reminder.id.toString())
+                    }.build()
+                }.let {
+                    PendingIntent.getBroadcast(context, 0, it, 0)
+                }
+            )
 
             priority = NotificationCompat.PRIORITY_DEFAULT
         }.let {

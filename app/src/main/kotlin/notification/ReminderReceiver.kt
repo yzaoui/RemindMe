@@ -9,15 +9,21 @@ import kotlinx.coroutines.runBlocking
 
 class ReminderReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action?.equals(Action.REMINDER_ELAPSED.key, ignoreCase = true) == true) {
-            val reminder = runBlocking { InjectorUtils.provideReminderRepository(context).getReminder(intent.extras!!.getInt(Extra.ELAPSED_REMINDER_ID.key)) }
+        when (intent.action) {
+            Action.REMINDER_ELAPSED.key -> {
+                val reminder = runBlocking { InjectorUtils.provideReminderRepository(context).getReminder(intent.extras!!.getInt(Extra.ELAPSED_REMINDER_ID.key)) }
 
-            NotificationHelper.createNotification(context, reminder)
+                NotificationHelper.createNotification(context, reminder)
+            }
+            Action.DELETE_REMINDER.key -> {
+                runBlocking { InjectorUtils.provideReminderRepository(context).deleteReminderById(intent.data!!.pathSegments[1].toInt()) }
+            }
         }
     }
 
     enum class Action(val key: String) {
-        REMINDER_ELAPSED(PACKAGE_PREFIX + "REMINDER_ELAPSED")
+        REMINDER_ELAPSED(PACKAGE_PREFIX + "REMINDER_ELAPSED"),
+        DELETE_REMINDER(PACKAGE_PREFIX + "DELETE_REMINDER")
     }
 
     enum class Extra(val key: String) {
