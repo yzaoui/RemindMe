@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
 
         var startArgs = ReminderListFragmentArgs()
         if (intent?.action == Action.GO_TO_REMINDER.key) {
-            startArgs = startArgs.copy(scrollToReminderId = intent.data.pathSegments[0].toInt())
+            startArgs = startArgs.copy(scrollToReminderId = intent.data!!.pathSegments[1].toInt())
         }
 
         navController.setGraph(R.navigation.main_navigation, startArgs.toBundle())
