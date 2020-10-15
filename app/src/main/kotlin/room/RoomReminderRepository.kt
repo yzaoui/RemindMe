@@ -16,6 +16,8 @@ class RoomReminderRepository private constructor(private val reminderDAO: Remind
 
     override suspend fun deleteReminder(reminder: Reminder) = reminderDAO.deleteReminder(reminder)
 
+    override suspend fun deleteReminderById(reminderId: Int) = reminderDAO.deleteReminderById(reminderId)
+
     companion object {
         @Volatile
         private var instance: RoomReminderRepository? = null
