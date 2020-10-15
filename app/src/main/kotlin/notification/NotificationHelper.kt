@@ -37,20 +37,20 @@ object NotificationHelper {
             setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
             setContentTitle("Reminder:")
             setContentText(reminder.title)
+            setContentIntent(
+                Intent(context, MainActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    action = MainActivity.Action.GO_TO_REMINDER.key
+                    data = Uri.Builder().apply {
+                        appendPath("reminder")
+                        appendPath(reminder.id.toString())
+                    }.build()
+                }.let {
+                    PendingIntent.getActivity(context, 0, it, 0)
+                }
+            )
+
             priority = NotificationCompat.PRIORITY_DEFAULT
-
-            val pendingIntent = Intent(context, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                action = MainActivity.Action.GO_TO_REMINDER.key
-                data = Uri.Builder().apply {
-                    scheme("reminder")
-                    path(reminder.id.toString())
-                }.build()
-            }.let {
-                PendingIntent.getActivity(context, 0, it, 0)
-            }
-
-            setContentIntent(pendingIntent)
         }.let {
             NotificationManagerCompat.from(context).notify(reminder.id, it.build())
         }
