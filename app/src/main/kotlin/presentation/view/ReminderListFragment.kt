@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bitwiserain.remindme.databinding.FragmentReminderListBinding
 import com.bitwiserain.remindme.presentation.viewmodel.ReminderListViewModel
+import com.bitwiserain.remindme.room.Reminder
 import com.bitwiserain.remindme.util.InjectorUtils
 
 /**
@@ -40,10 +42,7 @@ class ReminderListFragment : Fragment() {
         binding.reminderListRecycler.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = ReminderItemRecyclerViewAdapter(
-                deleteReminder = {
-                    viewModel.deleteReminder(it)
-                    listener?.onReminderDelete()
-                },
+                deleteReminder = ::deleteReminder,
                 lco =  this@ReminderListFragment,
                 initialExpandedReminderId = if (args.scrollToReminderId != -1) args.scrollToReminderId else null,
                 onInitialReminderExpanded = ::scrollToPosition
@@ -57,6 +56,12 @@ class ReminderListFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    private fun deleteReminder(reminder: Reminder) {
+        viewModel.deleteReminder(reminder)
+        listener?.onReminderDelete()
+        NotificationManagerCompat.from(requireContext()).cancel(reminder.id)
     }
 
     override fun onDetach() {
