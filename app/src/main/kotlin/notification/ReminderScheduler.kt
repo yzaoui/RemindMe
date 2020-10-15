@@ -23,14 +23,16 @@ object ReminderScheduler {
         }
     }
 
+    fun cancelNotification(context: Context, reminder: Reminder) {
+        alarmManager.cancel(createPendingIntent(context, reminder))
+    }
+
     private fun updateReminders(context: Context, reminders: List<Reminder>) {
         val now = Instant.now()
         val nextReminder = reminders.filter { !it.isElapsed(now) }.minBy { it.time }
 
         if (nextReminder != null) {
             schedule(context, nextReminder)
-        } else {
-            /* TODO: Cancel the upcoming reminder if any */
         }
     }
 
