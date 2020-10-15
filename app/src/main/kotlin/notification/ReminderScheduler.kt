@@ -29,7 +29,7 @@ object ReminderScheduler {
 
     private fun updateReminders(context: Context, reminders: List<Reminder>) {
         val now = Instant.now()
-        val nextReminder = reminders.filter { !it.isElapsed(now) }.minBy { it.time }
+        val nextReminder = reminders.filter { !it.isElapsed(now) }.maxByOrNull(Reminder::id)
 
         if (nextReminder != null) {
             schedule(context, nextReminder)
