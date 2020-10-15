@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bitwiserain.remindme.databinding.FragmentReminderListBinding
+import com.bitwiserain.remindme.notification.ReminderScheduler
 import com.bitwiserain.remindme.presentation.viewmodel.ReminderListViewModel
 import com.bitwiserain.remindme.room.Reminder
 import com.bitwiserain.remindme.util.InjectorUtils
@@ -61,7 +62,10 @@ class ReminderListFragment : Fragment() {
     private fun deleteReminder(reminder: Reminder) {
         viewModel.deleteReminder(reminder)
         listener?.onReminderDelete()
+        // Cancel shown notification
         NotificationManagerCompat.from(requireContext()).cancel(reminder.id)
+        // Cancel pending notification
+        ReminderScheduler.cancelNotification(requireContext(), reminder)
     }
 
     override fun onDetach() {

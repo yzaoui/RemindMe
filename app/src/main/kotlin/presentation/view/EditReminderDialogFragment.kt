@@ -77,10 +77,7 @@ class EditReminderDialogFragment : AppCompatDialogFragment() {
             Editing -> when (nextState) {
                 ConfirmDiscard -> showConfirmDiscardAlert()
                 Discarded -> dismiss()
-                Submitted -> {
-                    listener.onReminderSave()
-                    dismiss()
-                }
+                Submitted -> onSubmit()
             }
             ConfirmDiscard -> when (nextState) {
                 Discarded -> dismiss()
@@ -102,6 +99,11 @@ class EditReminderDialogFragment : AppCompatDialogFragment() {
                 viewModel.cancelDiscard()
             }
         }.create().show()
+    }
+
+    private fun onSubmit() {
+        listener.onReminderSave()
+        dismiss()
     }
 
     interface OnReminderSaveListener {
