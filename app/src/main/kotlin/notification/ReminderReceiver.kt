@@ -3,6 +3,7 @@ package com.bitwiserain.remindme.notification
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import androidx.core.app.NotificationManagerCompat
 import com.bitwiserain.remindme.util.InjectorUtils
 import com.bitwiserain.remindme.util.PACKAGE_PREFIX
 import kotlinx.coroutines.runBlocking
@@ -16,7 +17,10 @@ class ReminderReceiver : BroadcastReceiver() {
                 NotificationHelper.createNotification(context, reminder)
             }
             Action.DELETE_REMINDER.key -> {
-                runBlocking { InjectorUtils.provideReminderRepository(context).deleteReminderById(intent.data!!.pathSegments[1].toInt()) }
+                val reminderId = intent.data!!.pathSegments[1].toInt()
+
+                runBlocking { InjectorUtils.provideReminderRepository(context).deleteReminderById(reminderId) }
+                NotificationManagerCompat.from(context).cancel(reminderId)
             }
         }
     }
