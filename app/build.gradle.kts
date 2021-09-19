@@ -10,7 +10,7 @@ apply(plugin = "de.mannodermaus.android-junit5")
 apply(plugin = "androidx.navigation.safeargs.kotlin")
 
 android {
-    compileSdk = 30
+    compileSdk = 31
     defaultConfig {
         applicationId = "com.bitwiserain.remindme"
         minSdk = 26
