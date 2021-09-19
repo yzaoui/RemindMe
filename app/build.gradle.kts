@@ -25,10 +25,8 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
-    sourceSets {
-        getByName("main").java.srcDirs("src/main/kotlin")
-        getByName("androidTest").java.srcDirs("src/androidTest")
-        getByName("test").java.srcDirs("/src/test")
+    sourceSets.all {
+        java.srcDirs("src/$name/kotlin")
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
