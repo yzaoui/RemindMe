@@ -5,7 +5,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 plugins {
     id("com.android.application")
     kotlin("android")
-    kotlin("kapt")
+    id("com.google.devtools.ksp") version "1.5.30-1.0.0"
 }
 
 apply(plugin = "de.mannodermaus.android-junit5")
@@ -48,7 +48,7 @@ android {
 dependencies {
     implementation(project(":core"))
 
-    val room_version = "2.3.0"
+    val room_version = "2.4.0-alpha04"
     val coroutines_version = "1.5.2"
     val junit5_version = "5.7.2"
     val lifecycle_version = "2.3.1"
@@ -69,7 +69,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
 
-    kapt("androidx.room:room-compiler:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junit5_version")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit5_version")
