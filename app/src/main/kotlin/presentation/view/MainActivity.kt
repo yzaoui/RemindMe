@@ -2,6 +2,7 @@ package com.bitwiserain.remindme.presentation.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,7 +13,6 @@ import com.bitwiserain.remindme.R
 import com.bitwiserain.remindme.databinding.ActivityMainBinding
 import com.bitwiserain.remindme.util.PACKAGE_PREFIX
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_reminder_list.*
 
 class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInteractionListener, EditReminderDialogFragment.OnReminderSaveListener {
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -62,13 +62,11 @@ class MainActivity : AppCompatActivity(), ReminderListFragment.OnReminderItemInt
     }
 
     override fun onReminderSave() {
-        // TODO: Remove synthetic view
-        Snackbar.make(reminder_list_container, getString(R.string.main_created_reminder_snackbar), Snackbar.LENGTH_LONG).show()
+        Snackbar.make(findViewById<CoordinatorLayout>(R.id.reminder_list_container), getString(R.string.main_created_reminder_snackbar), Snackbar.LENGTH_LONG).show()
     }
 
     override fun onReminderDelete() {
-        // TODO: Remove synthetic view
-        Snackbar.make(reminder_list_container, getString(R.string.main_deleted_reminder_snackbar), Snackbar.LENGTH_LONG).show()
+        Snackbar.make(findViewById<CoordinatorLayout>(R.id.reminder_list_container), getString(R.string.main_deleted_reminder_snackbar), Snackbar.LENGTH_LONG).show()
     }
 
     enum class Action(val key: String) {
