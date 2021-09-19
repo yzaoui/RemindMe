@@ -14,7 +14,10 @@ import com.bitwiserain.remindme.R
 import com.bitwiserain.remindme.databinding.EditReminderBinding
 import com.bitwiserain.remindme.helper.focusAndShowKeyboard
 import com.bitwiserain.remindme.presentation.viewmodel.EditReminderDialogViewModel
-import com.bitwiserain.remindme.presentation.viewmodel.EditReminderDialogViewModel.State.*
+import com.bitwiserain.remindme.presentation.viewmodel.EditReminderDialogViewModel.State.ConfirmDiscard
+import com.bitwiserain.remindme.presentation.viewmodel.EditReminderDialogViewModel.State.Discarded
+import com.bitwiserain.remindme.presentation.viewmodel.EditReminderDialogViewModel.State.Editing
+import com.bitwiserain.remindme.presentation.viewmodel.EditReminderDialogViewModel.State.Submitted
 import com.bitwiserain.remindme.util.InjectorUtils
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
