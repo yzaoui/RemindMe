@@ -12,7 +12,7 @@ import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.extension.ExtendWith
-import org.threeten.bp.Instant
+import java.time.Instant
 
 @ExtendWith(InstantTaskExecutorExtension::class)
 internal class ReminderListViewModelTest : CoroutineTest {

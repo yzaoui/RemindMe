@@ -8,8 +8,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.threeten.bp.Instant
-import org.threeten.bp.temporal.ChronoUnit
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 

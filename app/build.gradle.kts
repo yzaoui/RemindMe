@@ -62,7 +62,6 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.google.android.material:material:1.4.0")
-    implementation("com.jakewharton.threetenabp:threetenabp:1.2.4")
     implementation("androidx.fragment:fragment-ktx:1.3.6")
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")

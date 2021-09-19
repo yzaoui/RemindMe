@@ -1,5 +1,5 @@
 package com.bitwiserain.remindme
 
-import org.threeten.bp.Instant
+import java.time.Instant
 
 data class NewReminder(val title: String, val time: Instant)

@@ -14,7 +14,7 @@ import com.bitwiserain.remindme.R
 import com.bitwiserain.remindme.Tick
 import com.bitwiserain.remindme.databinding.ViewReminderItemBinding
 import com.bitwiserain.remindme.room.Reminder
-import org.threeten.bp.Instant
+import java.time.Instant
 
 class ReminderItemRecyclerViewAdapter(
     private val deleteReminder: (reminder: Reminder) -> Unit,

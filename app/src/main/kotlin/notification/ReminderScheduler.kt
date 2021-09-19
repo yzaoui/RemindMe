@@ -8,7 +8,7 @@ import androidx.lifecycle.asLiveData
 import com.bitwiserain.remindme.domain.ReminderRepository
 import com.bitwiserain.remindme.room.Reminder
 import com.bitwiserain.remindme.util.InjectorUtils
-import org.threeten.bp.Instant
+import java.time.Instant
 
 object ReminderScheduler {
     private lateinit var alarmManager: AlarmManager
