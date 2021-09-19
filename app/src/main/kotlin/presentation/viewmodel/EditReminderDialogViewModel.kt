@@ -5,11 +5,15 @@ import androidx.lifecycle.viewModelScope
 import com.bitwiserain.remindme.ReminderTimeUnit
 import com.bitwiserain.remindme.core.repository.ReminderRepository
 import com.bitwiserain.remindme.core.repository.ReminderRepository.NewReminder
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.temporal.ChronoUnit
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class EditReminderDialogViewModel internal constructor(
     private val ioDispatcher: CoroutineDispatcher,

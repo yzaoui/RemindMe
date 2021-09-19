@@ -22,6 +22,10 @@ allprojects {
     }
 }
 
+plugins {
+    id("org.jetbrains.gradle.plugin.idea-ext") version "1.0.1" apply false
+}
+
 tasks.register<Delete>("clean") {
     delete(rootProject.buildDir)
 }

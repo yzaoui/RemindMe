@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import java.time.Duration
 import java.time.Instant
 import java.time.temporal.ChronoUnit
-import java.util.*
+import java.util.Timer
 import kotlin.concurrent.scheduleAtFixedRate
 
 object Tick {
