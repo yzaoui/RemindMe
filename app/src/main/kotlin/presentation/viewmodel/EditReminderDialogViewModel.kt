@@ -1,47 +1,33 @@
 package com.bitwiserain.remindme.presentation.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bitwiserain.remindme.ReminderTimeUnit
 import com.bitwiserain.remindme.core.repository.ReminderRepository
 import com.bitwiserain.remindme.core.repository.ReminderRepository.NewReminder
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.temporal.ChronoUnit
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.contract
 
 class EditReminderDialogViewModel internal constructor(
     private val ioDispatcher: CoroutineDispatcher,
     private val repo: ReminderRepository
 ) : ViewModel() {
-    val title = MutableLiveData<String>("")
+    val title: MutableStateFlow<String> = MutableStateFlow("")
 
-    val time = MutableLiveData<String>("")
+    val time: MutableStateFlow<String> = MutableStateFlow("")
 
-    val selectedUnitPosition = MutableLiveData<Int>(ReminderTimeUnit.HOURS.ordinal)
+    val selectedUnitPosition: MutableStateFlow<Int> = MutableStateFlow(ReminderTimeUnit.HOURS.ordinal)
 
     private val _state: MutableStateFlow<State> = MutableStateFlow(State.Editing)
-    val state: StateFlow<State>
-        get() = _state
+    val state: StateFlow<State> = _state
 
-    @ExperimentalContracts
-    private val _saveEnabled = MediatorLiveData<Boolean>().apply {
-        addSource(title) { updateSaveEnabled() }
-        addSource(time) { updateSaveEnabled() }
-    }
-    @ExperimentalContracts
-    val saveEnabled: LiveData<Boolean> = _saveEnabled
+    val saveEnabled: StateFlow<Boolean> = combine(title, time) { title, time ->
+        title.isValidTitle() && time.isValidTime()
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
-    @ExperimentalContracts
-    private fun updateSaveEnabled() {
-        // Save is only available if fields are valid
-        _saveEnabled.value = title.value.isValidTitle() && time.value.isValidTime()
-    }
-
-    @ExperimentalContracts
     fun saveReminder() {
         val currentTitle = title.value
         val currentTime = time.value
@@ -68,7 +54,7 @@ class EditReminderDialogViewModel internal constructor(
     }
 
     fun discard() {
-        if (!title.value.isNullOrBlank() || !time.value.isNullOrBlank()) {
+        if (title.value.isNotBlank() || time.value.isNotBlank()) {
             _state.value = State.ConfirmDiscard
         } else {
             _state.value = State.Discarded
@@ -91,29 +77,8 @@ class EditReminderDialogViewModel internal constructor(
     }
 }
 
-@ExperimentalContracts
-private fun String?.isValidTitle(): Boolean {
-    contract {
-        returns(true) implies (this@isValidTitle != null)
-    }
+private fun String.isValidTitle() = isNotBlank()
 
-    return !isNullOrBlank()
-}
+private fun String.isValidTime() = toLongOrNull()?.let { it >= 0 } ?: false
 
-@ExperimentalContracts
-private fun String?.isValidTime(): Boolean {
-    contract {
-        returns(true) implies (this@isValidTime != null)
-    }
-
-    return this?.toLongOrNull()?.let { it >= 0 } ?: false
-}
-
-@ExperimentalContracts
-private fun Int?.isValidUnitPosition(): Boolean {
-    contract {
-        returns(true) implies (this@isValidUnitPosition != null)
-    }
-
-    return this != null && this in ReminderTimeUnit.values().indices
-}
+private fun Int.isValidUnitPosition() = this in ReminderTimeUnit.values().indices

@@ -4,7 +4,6 @@ import com.bitwiserain.remindme.CoroutineTest
 import com.bitwiserain.remindme.InstantTaskExecutorExtension
 import com.bitwiserain.remindme.ReminderTimeUnit
 import com.bitwiserain.remindme.core.repository.ReminderRepository
-import com.bitwiserain.remindme.getOrAwaitValue
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
@@ -16,7 +15,6 @@ import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.extension.ExtendWith
-import kotlin.contracts.ExperimentalContracts
 
 @ExtendWith(InstantTaskExecutorExtension::class)
 internal class EditReminderDialogViewModelTest : CoroutineTest {
@@ -36,17 +34,17 @@ internal class EditReminderDialogViewModelTest : CoroutineTest {
     inner class Initial {
         @Test @DisplayName("When getting title, Then it should be empty")
         fun titleEmpty() = testCoroutineScope.runBlockingTest {
-            viewModel.title.getOrAwaitValue().shouldBeEmpty()
+            viewModel.title.value.shouldBeEmpty()
         }
 
         @Test @DisplayName("When getting time, Then it should be empty")
         fun timeEmpty() = testCoroutineScope.runBlockingTest {
-            viewModel.time.getOrAwaitValue().shouldBeEmpty()
+            viewModel.time.value.shouldBeEmpty()
         }
 
         @Test @DisplayName("When getting time unit, Then it should be HOURS")
         fun timeUnitEmpty() = testCoroutineScope.runBlockingTest {
-            viewModel.selectedUnitPosition.getOrAwaitValue() shouldBeExactly ReminderTimeUnit.HOURS.ordinal
+            viewModel.selectedUnitPosition.value shouldBeExactly ReminderTimeUnit.HOURS.ordinal
         }
 
         @Test @DisplayName("When getting state, Then it should be EDITING")
@@ -54,10 +52,9 @@ internal class EditReminderDialogViewModelTest : CoroutineTest {
             viewModel.state.value shouldBe EditReminderDialogViewModel.State.Editing
         }
 
-        @ExperimentalContracts
         @Test @DisplayName("When getting save enabled, Then it should be false")
         fun saveEnabledFalse() = testCoroutineScope.runBlockingTest {
-            viewModel.saveEnabled.getOrAwaitValue().shouldBeFalse()
+            viewModel.saveEnabled.value.shouldBeFalse()
         }
 
         @Test @DisplayName("When attempting to discard, Then the state should be DISCARDED")
@@ -79,10 +76,9 @@ internal class EditReminderDialogViewModelTest : CoroutineTest {
             viewModel.time.value = initialTime
         }
 
-        @ExperimentalContracts
         @Test @DisplayName("When getting save enabled, Then it should be true")
         fun saveEnabledTrue() = testCoroutineScope.runBlockingTest {
-            viewModel.saveEnabled.getOrAwaitValue().shouldBeTrue()
+            viewModel.saveEnabled.value.shouldBeTrue()
         }
 
         @Nested @DisplayName("When attempting to discard")
@@ -110,8 +106,8 @@ internal class EditReminderDialogViewModelTest : CoroutineTest {
 
                 assertSoftly {
                     viewModel.state.value shouldBe EditReminderDialogViewModel.State.Editing
-                    viewModel.title.getOrAwaitValue() shouldBe initialTitle
-                    viewModel.time.getOrAwaitValue() shouldBe initialTime
+                    viewModel.title.value shouldBe initialTitle
+                    viewModel.time.value shouldBe initialTime
                 }
             }
         }
