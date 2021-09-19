@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bitwiserain.remindme.core.model.Reminder
@@ -15,6 +18,8 @@ import com.bitwiserain.remindme.databinding.FragmentReminderListBinding
 import com.bitwiserain.remindme.notification.ReminderScheduler
 import com.bitwiserain.remindme.presentation.viewmodel.ReminderListViewModel
 import com.bitwiserain.remindme.util.InjectorUtils
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /**
  * A fragment representing a list of Items.
@@ -22,7 +27,8 @@ import com.bitwiserain.remindme.util.InjectorUtils
  * [ReminderListFragment.OnReminderItemInteractionListener] interface.
  */
 class ReminderListFragment : Fragment() {
-    private lateinit var binding: FragmentReminderListBinding
+    private var _binding: FragmentReminderListBinding? = null
+    private val binding get() = _binding!!
     private val args: ReminderListFragmentArgs by navArgs()
     private var listener: OnReminderItemInteractionListener? = null
     private val viewModel: ReminderListViewModel by viewModels {
@@ -37,8 +43,13 @@ class ReminderListFragment : Fragment() {
         listener = context
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentReminderListBinding.inflate(inflater, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentReminderListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         binding.reminderListRecycler.apply {
             layoutManager = LinearLayoutManager(context)
@@ -52,11 +63,23 @@ class ReminderListFragment : Fragment() {
 
         binding.fab.setOnClickListener { listener?.onCreateReminderClick() }
 
-        viewModel.reminders.observe(viewLifecycleOwner) { reminders ->
-            (binding.reminderListRecycler.adapter as ReminderItemRecyclerViewAdapter).submitList(reminders)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.reminders.collectLatest {
+                    (binding.reminderListRecycler.adapter as ReminderItemRecyclerViewAdapter).submitList(it)
+                }
+            }
         }
+    }
 
-        return binding.root
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
     }
 
     private fun deleteReminder(reminder: Reminder) {
@@ -66,11 +89,6 @@ class ReminderListFragment : Fragment() {
         NotificationManagerCompat.from(requireContext()).cancel(reminder.id)
         // Cancel pending notification
         ReminderScheduler.cancelNotification(requireContext(), reminder)
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
     }
 
     /**
