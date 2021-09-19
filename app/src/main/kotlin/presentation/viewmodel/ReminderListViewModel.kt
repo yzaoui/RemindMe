@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.bitwiserain.remindme.domain.ReminderRepository
-import com.bitwiserain.remindme.room.Reminder
+import com.bitwiserain.remindme.core.model.Reminder
+import com.bitwiserain.remindme.core.repository.ReminderRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch

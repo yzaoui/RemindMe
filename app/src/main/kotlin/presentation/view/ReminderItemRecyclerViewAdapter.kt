@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bitwiserain.remindme.R
 import com.bitwiserain.remindme.Tick
+import com.bitwiserain.remindme.core.model.Reminder
 import com.bitwiserain.remindme.databinding.ViewReminderItemBinding
-import com.bitwiserain.remindme.room.Reminder
-import org.threeten.bp.Instant
+import java.time.Instant
 
 class ReminderItemRecyclerViewAdapter(
     private val deleteReminder: (reminder: Reminder) -> Unit,

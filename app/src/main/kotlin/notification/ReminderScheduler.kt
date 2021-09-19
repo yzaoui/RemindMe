@@ -5,10 +5,10 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.asLiveData
-import com.bitwiserain.remindme.domain.ReminderRepository
-import com.bitwiserain.remindme.room.Reminder
+import com.bitwiserain.remindme.core.model.Reminder
+import com.bitwiserain.remindme.core.repository.ReminderRepository
 import com.bitwiserain.remindme.util.InjectorUtils
-import org.threeten.bp.Instant
+import java.time.Instant
 
 object ReminderScheduler {
     private lateinit var alarmManager: AlarmManager

@@ -2,7 +2,7 @@ package com.bitwiserain.remindme.presentation.viewmodel
 
 import com.bitwiserain.remindme.CoroutineTest
 import com.bitwiserain.remindme.InstantTaskExecutorExtension
-import com.bitwiserain.remindme.domain.ReminderRepository
+import com.bitwiserain.remindme.core.repository.ReminderRepository
 import com.bitwiserain.remindme.getOrAwaitValue
 import com.bitwiserain.remindme.room.Reminder
 import io.kotest.matchers.collections.shouldBeSortedWith
@@ -10,9 +10,13 @@ import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.*
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.threeten.bp.Instant
+import java.time.Instant
+import com.bitwiserain.remindme.core.model.Reminder as DomainReminder
 
 @ExtendWith(InstantTaskExecutorExtension::class)
 internal class ReminderListViewModelTest : CoroutineTest {
@@ -39,7 +43,7 @@ internal class ReminderListViewModelTest : CoroutineTest {
     inner class RemindersExist {
         @Nested @DisplayName("When getting the reminders")
         inner class OnGetReminders {
-            lateinit var reminders: List<Reminder>
+            lateinit var reminders: List<DomainReminder>
 
             @BeforeEach
             fun beforeEach() = testCoroutineScope.runBlockingTest {
@@ -59,7 +63,7 @@ internal class ReminderListViewModelTest : CoroutineTest {
 
         @Test @DisplayName("When deleting a reminder, Then the deleted reminder should be removed")
         fun reminderShouldBeDeleted() = testCoroutineScope.runBlockingTest {
-            var reminders: List<Reminder>? = null
+            var reminders: List<DomainReminder>? = null
             val reminderToDelete = initialFakeReminders[1]
 
             viewModel.deleteReminder(reminderToDelete)

@@ -13,7 +13,7 @@ android {
     compileSdk = 30
     defaultConfig {
         applicationId = "com.bitwiserain.remindme"
-        minSdk = 23
+        minSdk = 26
         targetSdk = 30
         versionCode = 3
         versionName = "0.2.0"
@@ -25,10 +25,8 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
-    sourceSets {
-        getByName("main").java.srcDirs("src/main/kotlin")
-        getByName("androidTest").java.srcDirs("src/androidTest")
-        getByName("test").java.srcDirs("/src/test")
+    sourceSets.all {
+        java.srcDirs("src/$name/kotlin")
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -49,6 +47,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
+
     val room_version = "2.3.0"
     val coroutines_version = "1.5.2"
     val junit5_version = "5.7.2"
@@ -62,7 +62,6 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.google.android.material:material:1.4.0")
-    implementation("com.jakewharton.threetenabp:threetenabp:1.2.4")
     implementation("androidx.fragment:fragment-ktx:1.3.6")
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
@@ -80,6 +79,7 @@ dependencies {
 }
 
 tasks.withType<Test> {
+    useJUnitPlatform()
     testLogging {
         events = setOf(PASSED, SKIPPED, FAILED)
     }

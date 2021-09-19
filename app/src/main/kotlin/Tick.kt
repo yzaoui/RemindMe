@@ -2,9 +2,9 @@ package com.bitwiserain.remindme
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import org.threeten.bp.Duration
-import org.threeten.bp.Instant
-import org.threeten.bp.temporal.ChronoUnit
+import java.time.Duration
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import java.util.*
 import kotlin.concurrent.scheduleAtFixedRate
 
