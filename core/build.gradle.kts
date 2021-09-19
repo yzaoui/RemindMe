@@ -4,7 +4,7 @@ import org.jetbrains.gradle.ext.PackagePrefixContainer
 
 plugins {
     kotlin("jvm")
-    id("org.jetbrains.gradle.plugin.idea-ext") version "1.0.1"
+    id("org.jetbrains.gradle.plugin.idea-ext")
 }
 
 fun IdeaModule.settings(block: ModuleSettings.() -> Unit) = (this as ExtensionAware).extensions.configure(block)
@@ -15,7 +15,6 @@ idea.module.settings {
     sourceSets.all {
         packagePrefix["src/$name/kotlin"] = "com.bitwiserain.remindme.core"
     }
-
 }
 
 dependencies {
