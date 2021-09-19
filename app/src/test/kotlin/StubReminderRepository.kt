@@ -22,6 +22,10 @@ class StubReminderRepository(initialReminders: List<Reminder> = emptyList(), pri
     override suspend fun deleteReminder(reminder: Reminder) {
         reminders.value -= reminder
     }
+
+    override suspend fun deleteReminderById(reminderId: Int) {
+        TODO("Not yet implemented")
+    }
 }
 
 fun doNothing(): Nothing = throw NotImplementedError()

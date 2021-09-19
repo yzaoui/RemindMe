@@ -12,7 +12,7 @@ class TestCoroutineExtension : TestInstancePostProcessor, BeforeAllCallback, Aft
     private val testCoroutineScope = TestCoroutineScope(testCoroutineDispatcher)
 
     override fun postProcessTestInstance(testInstance: Any, context: ExtensionContext) {
-        (testInstance as CoroutineTest).let {
+        (testInstance as? CoroutineTest)?.let {
             it.testCoroutineScope = testCoroutineScope
             it.testCoroutineDispatcher = testCoroutineDispatcher
         }
