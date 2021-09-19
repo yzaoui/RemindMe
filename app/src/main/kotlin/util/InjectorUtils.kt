@@ -6,9 +6,11 @@ import com.bitwiserain.remindme.presentation.viewmodel.EditReminderDialogViewMod
 import com.bitwiserain.remindme.presentation.viewmodel.ReminderListViewModelFactory
 import com.bitwiserain.remindme.room.AppDatabase
 import com.bitwiserain.remindme.room.RoomReminderRepository
+import kotlinx.coroutines.Dispatchers
 
 object InjectorUtils {
     fun provideReminderListViewModelFactory(context: Context) = ReminderListViewModelFactory(
+        ioDispatcher = Dispatchers.IO,
         repo = provideReminderRepository(context)
     )
 
