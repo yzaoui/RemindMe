@@ -5,8 +5,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.asLiveData
+import com.bitwiserain.remindme.domain.Reminder
 import com.bitwiserain.remindme.domain.ReminderRepository
-import com.bitwiserain.remindme.room.Reminder
 import com.bitwiserain.remindme.util.InjectorUtils
 import java.time.Instant
 

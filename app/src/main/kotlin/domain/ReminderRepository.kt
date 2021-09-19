@@ -1,7 +1,6 @@
 package com.bitwiserain.remindme.domain
 
 import com.bitwiserain.remindme.NewReminder
-import com.bitwiserain.remindme.room.Reminder
 import kotlinx.coroutines.flow.Flow
 
 interface ReminderRepository {

@@ -5,6 +5,7 @@ import com.bitwiserain.remindme.InstantTaskExecutorExtension
 import com.bitwiserain.remindme.domain.ReminderRepository
 import com.bitwiserain.remindme.getOrAwaitValue
 import com.bitwiserain.remindme.room.Reminder
+import com.bitwiserain.remindme.domain.Reminder as DomainReminder
 import io.kotest.matchers.collections.shouldBeSortedWith
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -39,7 +40,7 @@ internal class ReminderListViewModelTest : CoroutineTest {
     inner class RemindersExist {
         @Nested @DisplayName("When getting the reminders")
         inner class OnGetReminders {
-            lateinit var reminders: List<Reminder>
+            lateinit var reminders: List<DomainReminder>
 
             @BeforeEach
             fun beforeEach() = testCoroutineScope.runBlockingTest {
@@ -59,7 +60,7 @@ internal class ReminderListViewModelTest : CoroutineTest {
 
         @Test @DisplayName("When deleting a reminder, Then the deleted reminder should be removed")
         fun reminderShouldBeDeleted() = testCoroutineScope.runBlockingTest {
-            var reminders: List<Reminder>? = null
+            var reminders: List<DomainReminder>? = null
             val reminderToDelete = initialFakeReminders[1]
 
             viewModel.deleteReminder(reminderToDelete)

@@ -11,9 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bitwiserain.remindme.databinding.FragmentReminderListBinding
+import com.bitwiserain.remindme.domain.Reminder
 import com.bitwiserain.remindme.notification.ReminderScheduler
 import com.bitwiserain.remindme.presentation.viewmodel.ReminderListViewModel
-import com.bitwiserain.remindme.room.Reminder
 import com.bitwiserain.remindme.util.InjectorUtils
 
 /**
@@ -52,9 +52,9 @@ class ReminderListFragment : Fragment() {
 
         binding.fab.setOnClickListener { listener?.onCreateReminderClick() }
 
-        viewModel.reminders.observe(viewLifecycleOwner, { reminders ->
+        viewModel.reminders.observe(viewLifecycleOwner) { reminders ->
             (binding.reminderListRecycler.adapter as ReminderItemRecyclerViewAdapter).submitList(reminders)
-        })
+        }
 
         return binding.root
     }

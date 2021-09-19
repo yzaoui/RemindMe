@@ -4,13 +4,12 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.Instant
+import com.bitwiserain.remindme.domain.Reminder as DomainReminder
 
 @Entity(tableName = "reminder")
 data class Reminder(
-    @ColumnInfo(name = "title") val title: String,
-    @ColumnInfo(name = "time") val time: Instant
-) {
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") var id: Int = 0
-
-    fun isElapsed(now: Instant): Boolean = now > time
+    @ColumnInfo(name = "title") override val title: String,
+    @ColumnInfo(name = "time") override val time: Instant
+) : DomainReminder {
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") override var id: Int = 0
 }

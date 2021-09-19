@@ -4,6 +4,7 @@ import com.bitwiserain.remindme.NewReminder
 import com.bitwiserain.remindme.domain.ReminderRepository
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
+import com.bitwiserain.remindme.domain.Reminder as DomainReminder
 
 class RoomReminderRepository private constructor(private val reminderDAO: ReminderDAO) : ReminderRepository {
     override fun getReminders() = reminderDAO.getReminders()
@@ -14,7 +15,7 @@ class RoomReminderRepository private constructor(private val reminderDAO: Remind
         reminderDAO.insertReminder(Reminder(reminder.title, reminder.time))
     }
 
-    override suspend fun deleteReminder(reminder: Reminder) = reminderDAO.deleteReminder(reminder)
+    override suspend fun deleteReminder(reminder: DomainReminder) = reminderDAO.deleteReminderById(reminder.id)
 
     override suspend fun deleteReminderById(reminderId: Int) = reminderDAO.deleteReminderById(reminderId)
 

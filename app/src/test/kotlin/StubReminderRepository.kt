@@ -3,13 +3,13 @@ package com.bitwiserain.remindme.presentation.viewmodel
 import com.bitwiserain.remindme.NewReminder
 import com.bitwiserain.remindme.domain.ReminderRepository
 import com.bitwiserain.remindme.room.Reminder
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import com.bitwiserain.remindme.domain.Reminder as DomainReminder
 
 class StubReminderRepository(initialReminders: List<Reminder> = emptyList(), private var lastId: Int = 0) : ReminderRepository {
-    private val reminders: MutableStateFlow<List<Reminder>> = MutableStateFlow(initialReminders)
+    private val reminders: MutableStateFlow<List<DomainReminder>> = MutableStateFlow(initialReminders)
 
-    override fun getReminders(): Flow<List<Reminder>> = reminders
+    override fun getReminders() = reminders
 
     override suspend fun getReminder(id: Int): Reminder = doNothing()
 
@@ -19,7 +19,7 @@ class StubReminderRepository(initialReminders: List<Reminder> = emptyList(), pri
         }
     }
 
-    override suspend fun deleteReminder(reminder: Reminder) {
+    override suspend fun deleteReminder(reminder: DomainReminder) {
         reminders.value -= reminder
     }
 
