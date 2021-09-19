@@ -3,10 +3,11 @@ package com.bitwiserain.remindme.presentation.viewmodel
 import com.bitwiserain.remindme.CoroutineTest
 import com.bitwiserain.remindme.InstantTaskExecutorExtension
 import com.bitwiserain.remindme.core.repository.ReminderRepository
-import com.bitwiserain.remindme.getOrAwaitValue
 import com.bitwiserain.remindme.room.Reminder
 import io.kotest.matchers.collections.shouldBeSortedWith
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
+import java.time.Instant
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
@@ -15,7 +16,6 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import java.time.Instant
 import com.bitwiserain.remindme.core.model.Reminder as DomainReminder
 
 @ExtendWith(InstantTaskExecutorExtension::class)
@@ -37,6 +37,7 @@ internal class ReminderListViewModelTest : CoroutineTest {
     fun beforeAll() {
         stubRepo = StubReminderRepository(initialFakeReminders, initialFakeReminders.last().id)
         viewModel = ReminderListViewModel(testCoroutineDispatcher, stubRepo)
+        viewModel.reminders.launchIn(testCoroutineScope)
     }
 
     @Nested @DisplayName("Given reminders in the database")
@@ -47,7 +48,7 @@ internal class ReminderListViewModelTest : CoroutineTest {
 
             @BeforeEach
             fun beforeEach() = testCoroutineScope.runBlockingTest {
-                reminders = viewModel.reminders.getOrAwaitValue()
+                reminders = viewModel.reminders.value
             }
 
             @Test @DisplayName("Then the same reminders are returned")
@@ -63,12 +64,12 @@ internal class ReminderListViewModelTest : CoroutineTest {
 
         @Test @DisplayName("When deleting a reminder, Then the deleted reminder should be removed")
         fun reminderShouldBeDeleted() = testCoroutineScope.runBlockingTest {
-            var reminders: List<DomainReminder>? = null
+            val reminders: List<DomainReminder>?
             val reminderToDelete = initialFakeReminders[1]
 
             viewModel.deleteReminder(reminderToDelete)
 
-            reminders = viewModel.reminders.getOrAwaitValue()
+            reminders = viewModel.reminders.value
 
             reminders shouldContainExactlyInAnyOrder initialFakeReminders.minus(reminderToDelete)
         }

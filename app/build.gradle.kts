@@ -60,6 +60,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.6.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.0")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-beta01")
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.fragment:fragment-ktx:1.3.6")
     implementation("androidx.room:room-runtime:$room_version")
