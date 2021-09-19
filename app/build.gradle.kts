@@ -13,7 +13,7 @@ android {
     compileSdk = 30
     defaultConfig {
         applicationId = "com.bitwiserain.remindme"
-        minSdk = 23
+        minSdk = 26
         targetSdk = 30
         versionCode = 3
         versionName = "0.2.0"
