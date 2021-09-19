@@ -12,7 +12,10 @@ fun IdeaModule.settings(block: ModuleSettings.() -> Unit) = (this as ExtensionAw
 val ModuleSettings.packagePrefix: PackagePrefixContainer get() = (this as ExtensionAware).extensions["packagePrefix"] as PackagePrefixContainer
 
 idea.module.settings {
-    packagePrefix["src/main/kotlin"] = "com.bitwiserain.remindme.core"
+    sourceSets.all {
+        packagePrefix["src/$name/kotlin"] = "com.bitwiserain.remindme.core"
+    }
+
 }
 
 dependencies {
