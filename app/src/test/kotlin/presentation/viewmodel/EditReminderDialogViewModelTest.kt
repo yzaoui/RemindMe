@@ -3,7 +3,7 @@ package com.bitwiserain.remindme.presentation.viewmodel
 import com.bitwiserain.remindme.CoroutineTest
 import com.bitwiserain.remindme.InstantTaskExecutorExtension
 import com.bitwiserain.remindme.ReminderTimeUnit
-import com.bitwiserain.remindme.domain.ReminderRepository
+import com.bitwiserain.remindme.core.repository.ReminderRepository
 import com.bitwiserain.remindme.getOrAwaitValue
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.booleans.shouldBeFalse

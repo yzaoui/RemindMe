@@ -2,18 +2,21 @@ package com.bitwiserain.remindme.presentation.viewmodel
 
 import com.bitwiserain.remindme.CoroutineTest
 import com.bitwiserain.remindme.InstantTaskExecutorExtension
-import com.bitwiserain.remindme.domain.ReminderRepository
+import com.bitwiserain.remindme.core.repository.ReminderRepository
 import com.bitwiserain.remindme.getOrAwaitValue
 import com.bitwiserain.remindme.room.Reminder
-import com.bitwiserain.remindme.domain.Reminder as DomainReminder
 import io.kotest.matchers.collections.shouldBeSortedWith
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.*
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import java.time.Instant
+import com.bitwiserain.remindme.core.model.Reminder as DomainReminder
 
 @ExtendWith(InstantTaskExecutorExtension::class)
 internal class ReminderListViewModelTest : CoroutineTest {

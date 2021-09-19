@@ -1,10 +1,10 @@
 package com.bitwiserain.remindme.room
 
-import com.bitwiserain.remindme.NewReminder
-import com.bitwiserain.remindme.domain.ReminderRepository
+import com.bitwiserain.remindme.core.repository.ReminderRepository
+import com.bitwiserain.remindme.core.repository.ReminderRepository.NewReminder
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
-import com.bitwiserain.remindme.domain.Reminder as DomainReminder
+import com.bitwiserain.remindme.core.model.Reminder as DomainReminder
 
 class RoomReminderRepository private constructor(private val reminderDAO: ReminderDAO) : ReminderRepository {
     override fun getReminders() = reminderDAO.getReminders()
@@ -17,7 +17,7 @@ class RoomReminderRepository private constructor(private val reminderDAO: Remind
 
     override suspend fun deleteReminder(reminder: DomainReminder) = reminderDAO.deleteReminderById(reminder.id)
 
-    override suspend fun deleteReminderById(reminderId: Int) = reminderDAO.deleteReminderById(reminderId)
+    override suspend fun deleteReminder(reminderId: Int) = reminderDAO.deleteReminderById(reminderId)
 
     companion object {
         @Volatile

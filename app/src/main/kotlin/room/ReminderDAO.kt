@@ -1,7 +1,6 @@
 package com.bitwiserain.remindme.room
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
@@ -16,9 +15,6 @@ interface ReminderDAO {
 
     @Query("SELECT * FROM reminder WHERE id = :id")
     suspend fun getReminder(id: Int): Reminder
-
-    @Delete
-    suspend fun deleteReminder(reminder: Reminder)
 
     @Query("DELETE FROM reminder WHERE id = :id")
     suspend fun deleteReminderById(id: Int)

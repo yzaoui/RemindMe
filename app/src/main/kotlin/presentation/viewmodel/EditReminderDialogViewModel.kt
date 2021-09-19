@@ -1,9 +1,9 @@
 package com.bitwiserain.remindme.presentation.viewmodel
 
 import androidx.lifecycle.*
-import com.bitwiserain.remindme.NewReminder
 import com.bitwiserain.remindme.ReminderTimeUnit
-import com.bitwiserain.remindme.domain.ReminderRepository
+import com.bitwiserain.remindme.core.repository.ReminderRepository
+import com.bitwiserain.remindme.core.repository.ReminderRepository.NewReminder
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

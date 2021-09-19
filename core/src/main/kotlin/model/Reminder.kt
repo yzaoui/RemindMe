@@ -1,4 +1,4 @@
-package com.bitwiserain.remindme.domain
+package com.bitwiserain.remindme.core.model
 
 import java.time.Instant
 

@@ -49,6 +49,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
+
     val room_version = "2.3.0"
     val coroutines_version = "1.5.2"
     val junit5_version = "5.7.2"

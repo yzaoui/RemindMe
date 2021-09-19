@@ -19,7 +19,7 @@ class ReminderReceiver : BroadcastReceiver() {
             Action.DELETE_REMINDER.key -> {
                 val reminderId = intent.data!!.pathSegments[1].toInt()
 
-                runBlocking { InjectorUtils.provideReminderRepository(context).deleteReminderById(reminderId) }
+                runBlocking { InjectorUtils.provideReminderRepository(context).deleteReminder(reminderId) }
                 NotificationManagerCompat.from(context).cancel(reminderId)
             }
         }

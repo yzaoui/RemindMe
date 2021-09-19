@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.Instant
-import com.bitwiserain.remindme.domain.Reminder as DomainReminder
+import com.bitwiserain.remindme.core.model.Reminder as DomainReminder
 
 @Entity(tableName = "reminder")
 data class Reminder(

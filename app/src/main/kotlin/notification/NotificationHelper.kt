@@ -10,7 +10,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.bitwiserain.remindme.R
-import com.bitwiserain.remindme.domain.Reminder
+import com.bitwiserain.remindme.core.model.Reminder
 import com.bitwiserain.remindme.presentation.view.MainActivity
 
 object NotificationHelper {
