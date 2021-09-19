@@ -38,11 +38,6 @@ android {
         dataBinding = true
         viewBinding = true
     }
-    // TODO: Workaround until coroutines issue fixed: https://github.com/Kotlin/kotlinx.coroutines/issues/2023
-    packagingOptions {
-        exclude("META-INF/AL2.0")
-        exclude("META-INF/LGPL2.1")
-    }
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
