@@ -51,6 +51,7 @@ dependencies {
     val coroutines_version = "1.5.2"
     val junit5_version = "5.7.2"
     val lifecycle_version = "2.3.1"
+    val navigation_version = rootProject.extra["navigation_version"] as String
     val room_version = "2.4.2"
 
     implementation(fileTree("dir" to "libs", "include" to listOf("*.jar")))
@@ -64,8 +65,8 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.3.6")
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
-    implementation("androidx.navigation:navigation-fragment-ktx:${rootProject.extra["navigation_version"]}")
-    implementation("androidx.navigation:navigation-ui-ktx:${rootProject.extra["navigation_version"]}")
+    implementation("androidx.navigation:navigation-fragment:$navigation_version")
+    implementation("androidx.navigation:navigation-ui:$navigation_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
 

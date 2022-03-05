@@ -2,7 +2,7 @@
 
 buildscript {
     extra["kotlin_version"] = "1.5.30"
-    extra["navigation_version"] = "2.3.5"
+    extra["navigation_version"] = "2.4.1"
     repositories {
         google()
         mavenCentral()
