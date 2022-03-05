@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    extra["kotlin_version"] = "1.5.30"
+    extra["kotlin_version"] = "1.6.10"
     extra["navigation_version"] = "2.4.1"
     repositories {
         google()
