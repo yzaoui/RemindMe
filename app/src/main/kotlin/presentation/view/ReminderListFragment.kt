@@ -9,6 +9,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
@@ -55,7 +56,6 @@ class ReminderListFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = ReminderItemRecyclerViewAdapter(
                 deleteReminder = ::deleteReminder,
-                lco =  this@ReminderListFragment,
                 initialExpandedReminderId = if (args.scrollToReminderId != -1) args.scrollToReminderId else null,
                 onInitialReminderExpanded = ::scrollToPosition
             )
@@ -64,10 +64,8 @@ class ReminderListFragment : Fragment() {
         binding.fab.setOnClickListener { listener?.onCreateReminderClick() }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.reminders.collectLatest {
-                    (binding.reminderListRecycler.adapter as ReminderItemRecyclerViewAdapter).submitList(it)
-                }
+            viewModel.reminders.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collectLatest {
+                (binding.reminderListRecycler.adapter as ReminderItemRecyclerViewAdapter).submitList(it)
             }
         }
     }
