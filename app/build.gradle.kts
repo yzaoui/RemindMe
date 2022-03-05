@@ -48,10 +48,10 @@ android {
 dependencies {
     implementation(project(":core"))
 
-    val room_version = "2.4.0-alpha04"
     val coroutines_version = "1.5.2"
     val junit5_version = "5.7.2"
     val lifecycle_version = "2.3.1"
+    val room_version = "2.4.2"
 
     implementation(fileTree("dir" to "libs", "include" to listOf("*.jar")))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version")
