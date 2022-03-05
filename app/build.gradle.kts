@@ -34,6 +34,7 @@ android {
     buildFeatures {
         dataBinding = true
         viewBinding = true
+        compose = true
     }
     testOptions {
         unitTests {
@@ -43,12 +44,16 @@ android {
             }
         }
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = rootProject.extra["compose_version"].toString()
+    }
 }
 
 dependencies {
     implementation(project(":core"))
 
     val coroutines_version = "1.5.2"
+    val compose_version = rootProject.extra["compose_version"] as String
     val junit5_version = "5.7.2"
     val lifecycle_version = "2.3.1"
     val navigation_version = rootProject.extra["navigation_version"] as String
@@ -69,6 +74,12 @@ dependencies {
     implementation("androidx.navigation:navigation-ui:$navigation_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    implementation("androidx.compose.ui:ui:$compose_version")
+    debugImplementation("androidx.compose.ui:ui-tooling:$compose_version")
+    implementation("androidx.compose.ui:ui-tooling-preview:$compose_version")
+    implementation("androidx.compose.foundation:foundation:$compose_version")
+    implementation("androidx.compose.material:material:$compose_version")
+    implementation("androidx.compose.runtime:runtime-livedata:$compose_version")
 
     ksp("androidx.room:room-compiler:$room_version")
 
