@@ -5,22 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.bitwiserain.remindme.R
 import com.bitwiserain.remindme.core.model.Reminder
 import com.bitwiserain.remindme.databinding.FragmentReminderListBinding
 import com.bitwiserain.remindme.notification.ReminderScheduler
 import com.bitwiserain.remindme.presentation.viewmodel.ReminderListViewModel
 import com.bitwiserain.remindme.util.InjectorUtils
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 /**
  * A fragment representing a list of Items.
@@ -52,22 +48,25 @@ class ReminderListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.reminderListRecycler.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = ReminderItemRecyclerViewAdapter(
-                deleteReminder = ::deleteReminder,
-                initialExpandedReminderId = if (args.scrollToReminderId != -1) args.scrollToReminderId else null,
-                onInitialReminderExpanded = ::scrollToPosition
-            )
+        val elapsedString = binding.root.resources.getString(R.string.reminder_elapsed)
+
+        binding.reminderList.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                val reminders = viewModel.reminders.collectAsState()
+
+                if (reminders.value.isEmpty()) return@setContent
+
+                ReminderListView(
+                    reminders = reminders.value,
+                    initiallyExpandedReminderId = if (args.scrollToReminderId != -1) args.scrollToReminderId else null,
+                    elapsedString = elapsedString,
+                    onDeleteReminder = ::deleteReminder
+                )
+            }
         }
 
         binding.fab.setOnClickListener { listener?.onCreateReminderClick() }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.reminders.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collectLatest {
-                (binding.reminderListRecycler.adapter as ReminderItemRecyclerViewAdapter).submitList(it)
-            }
-        }
     }
 
     override fun onDestroyView() {

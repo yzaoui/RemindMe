@@ -8,8 +8,7 @@ import com.bitwiserain.remindme.core.model.Reminder as DomainReminder
 
 @Entity(tableName = "reminder")
 data class Reminder(
-    @ColumnInfo(name = "title") override val title: String,
-    @ColumnInfo(name = "time") override val time: Instant
-) : DomainReminder {
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") override var id: Int = 0
-}
+    @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "time") val time: Instant,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Int = 0,
+)
